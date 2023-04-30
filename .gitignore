@@ -1,5 +1,5 @@
-mongo-data
 nodejs/node_modules
-nodejs/package-lock.json
+mongodb
+package-lock.json
 docker-compose.yaml
 Dockerfile
