@@ -8,6 +8,9 @@ const authToken = require('./middlewares/authToken');
 
 const routerUsuarios = require('./routes/usuarios');
 const routerAuth = require('./routes/auth');
+const routerViajes = require('./routes/viajes');
+const routerDias = require('./routes/dias');
+const routerEventos = require('./routes/eventos');
 
 const app = express(); // crea una aplicación de tipo express
 
@@ -31,8 +34,12 @@ db.on('connected', () => { // si hay conexión
 
     app.use(authToken);
 
-    app.use('/usuarios',routerUsuarios); //se cargan las rutas
-    app.use('/auth',routerAuth); //se cargan las rutas
+    app.use('/auth',routerAuth); 
+    app.use('/usuarios',routerUsuarios);
+    app.use('/viajes',routerViajes);
+    app.use('/dias',routerDias);
+    app.use('/eventos',routerEventos);
+
     
     // Si se pide una ruta invalida se devuelve un 404
     app.use(function(req, res, next) {
@@ -50,7 +57,6 @@ db.on('connected', () => { // si hay conexión
 
 
 
-//const jwt = require('jsonwebtoken') // módulo que permite crear y validar token de tipo jweb
 //const methodOverride = require('method-override');
 //let createError = require('http-errors'); // módulo para gestionar los errores http
 //let logger = require('morgan'); // módulo que permite emitir logs con formato

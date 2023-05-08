@@ -56,10 +56,10 @@ const UsuarioSchema = new Schema({
         enum:['activo','inactivo'],
     },
     fechaBaja: {
-        type: Date,
+        type: Date
     },
     viajes: {
-        type: Array,
+        type: Array
     }
 });
 

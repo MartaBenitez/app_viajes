@@ -7,8 +7,7 @@ module.exports = function(req,res,next){
             let token = req.headers.authorization.split(' ')[1];
             jwt.verify(token,CONFIG.SECRET_TOKEN,function(error,decoded){
                 if(error) return res.status(403).send({message:"No tiene los permisos suficientes para acceder", error});
-                console.log(req.path)
-                if(req.path=='/usuarios' && decoded.rol=='user'){
+                if((req.path=='/usuarios/admin' || req.path=='/viajes/admin') && decoded.rol=='user'){
                     return res.status(403).send({message:"No tiene los permisos suficientes para acceder", error});
                 }
                 /*if(decoded.rol=='user'&& decoded._id!=id){

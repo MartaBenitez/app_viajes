@@ -16,7 +16,7 @@ function login(req,res){
             bcrypt.compare(contrasena,usuario.contrasena)
                   .then(match => {
                         if(match){
-                            payload = {
+                            let payload = {
                                 _id: usuario._id,
                                 email: usuario.email,
                                 nombre: usuario.nombre,
