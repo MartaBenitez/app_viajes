@@ -3,3 +3,7 @@ mongodb
 package-lock.json
 docker-compose.yaml
 Dockerfile
+node_modules
+.parcel-cache
+dist
+.cache
