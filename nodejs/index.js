@@ -34,7 +34,7 @@ db.on('connected', () => { // si hay conexión
 
     app.use(authToken);
 
-    app.use('/auth',routerAuth); 
+    app.use('/',routerAuth); 
     app.use('/usuarios',routerUsuarios);
     app.use('/viajes',routerViajes);
     app.use('/dias',routerDias);

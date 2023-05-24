@@ -5,7 +5,8 @@ import Breadcrumbs from './components/navbar/Breadcrumbs'
 import Footer from './components/footer/Footer'
 //import Layout from "./pages/Layout";
 import Home from "./pages/Home";
-import Acceso from "./pages/Acceso";
+import Login from "./pages/Login";
+import Registro from "./pages/Registro";
 //import Contact from "./pages/Contact";
 //import NoPage from "./pages/NoPage";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -17,7 +18,8 @@ function App() {
       <Breadcrumbs />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/acceso" element={<Acceso />} />
+          <Route path="/acceso" element={<Login/>} />
+          <Route path="/registro" element={<Registro />} />
         </Routes>
       <Footer />
     </>

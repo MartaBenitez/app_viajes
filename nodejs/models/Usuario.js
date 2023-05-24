@@ -24,21 +24,21 @@ const UsuarioSchema = new Schema({
     nombre: {
         type: String,
         required: true,
-        match:  /^[a-z -]+$/i,
+        match: /^[a-zA-Z\u00C0-\u017F\s-]+$/,
         minLength: 3,
         maxLength: 25
     },
     apellidos: {
         type: String,
         required: true,
-        match: /^[a-z -]+$/i,
+        match:  /^[a-zA-Z\u00C0-\u017F\s-]+$/,
         minLength: 3,
         maxLength: 50
     },
     fechaNacimiento: {
         type: Date,
         required: true,
-        max: `${(new Date().getFullYear())-14}-${(new Date().getMonth())+1}-${new Date().getDate()}`,
+        max: `${(new Date().getFullYear())-14}-${String((new Date().getMonth())+1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`,
         min: '1900-01-01'
     },
     fechaAlta: {

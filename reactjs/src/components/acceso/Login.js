@@ -1,93 +1,55 @@
-import React from 'react';
-import { useState } from 'react';
-import { MDBValidationItem, MDBRow, MDBCol, MDBInput, MDBCheckbox, MDBBtn, MDBTabs, MDBTabsItem, MDBTabsLink, MDBTabsContent, MDBTabsPane, MDBValidation } from 'mdb-react-ui-kit';
+import React, { useState } from 'react';
+import { MDBRow, MDBCol, MDBInput, MDBCheckbox, MDBBtn, MDBValidationItem, MDBValidation} from 'mdb-react-ui-kit';
+import {logearUsuario} from '../../api/Acceso'
+import {validacionLogin} from './Validacion'
 
-export default function App() {
-  const [loginRegisterActive, setState] = useState('login');
-  const handleLoginRegisterClick=(dato)=>{
-    setState(dato)
-  }
-  const [formValue, setFormValue] = useState({
+
+export default function Login() {
+
+ const [formValue, setFormValue]=useState({
     email:'',
-    contraseña:'',
-  });
+    contrasena:'',
+  })
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    let errores=validacionLogin(formValue);
+    if(!errores){
+      logearUsuario(formValue)
+    }else{
+      alert("Error")
+    }
+   
+  }
+
   const onChange = (e) => {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
   };
-    return (
-    <div>
-      <MDBTabs pills justify className='mb-3 align-content-center'>
-        <MDBTabsItem>
-          <MDBTabsLink
-            onClick={() => handleLoginRegisterClick('login')}
-            active={loginRegisterActive === 'login'}
-          >
-            Inicie sesión
-          </MDBTabsLink>
-        </MDBTabsItem>
-        <MDBTabsItem>
-          <MDBTabsLink
-            onClick={() => handleLoginRegisterClick('register')}
-            active={loginRegisterActive === 'register'}
-          >
-            Regístrese
-          </MDBTabsLink>
-        </MDBTabsItem>
-      </MDBTabs>
 
-      <MDBTabsContent className='mb-3'>
-        <MDBTabsPane show={loginRegisterActive === 'login'}>
-          <form>
-          <MDBValidation isValidated>
-            <MDBValidationItem tooltip>
-                <MDBInput className='mb-4' type='email' name='email' id='form7Example1' label='Email' value={formValue.email} onChange={onChange} required/>
-            </MDBValidationItem>
-            <MDBValidationItem>
-                <MDBInput className='mb-4' type='password' name='contraseña' id='form7Example2' label='Contraseña' value={formValue.contraseña} onChange={onChange} required/>
-            </MDBValidationItem>
-          </MDBValidation>
-            <MDBRow className='mb-4'>
-              <MDBCol className='d-flex justify-content-center'>
-                <MDBCheckbox id='form7Example3' label='Recordar datos de acceso' />
-              </MDBCol>
-              <MDBCol>
-                <a href='#!'>¿Olvidó su contraseña?</a>
-              </MDBCol>
-            </MDBRow>
+  return (
+      <MDBValidation className='row g-3' isValidated>
+        <MDBValidationItem className='col-md-12 my-2' feedback='Email incorrecto.' invalid>
+          <MDBInput className='form-control' type='email' id='email' name='email' label='Email' onChange={onChange} required />
+        </MDBValidationItem>
+        <MDBValidationItem className='col-md-12 my-2' feedback='Contraseña incorrecta. Solo puede contener letras, números y/o los caracteres *?#@$. Entre 8 y 25 caracteres en total.' invalid>
+          <MDBInput className='form-control' type='password' id='contrasena' name='contrasena' label='Contraseña' onChange={onChange} pattern="[a-zA-Z0-9*?#@$]{8,25}" required/>
+        </MDBValidationItem>
+      <MDBRow className='mb-4'>
+        <MDBCol className='d-flex justify-content-center'>
+          <MDBCheckbox id='recuerdame' label='Recordar datos acceso' />
+        </MDBCol>
+        <MDBCol>
+          <a href='#!'>¿Olvidó su contraseña?</a>
+        </MDBCol>
+      </MDBRow>
 
-            <MDBBtn type='submit' className='mb-4' block>
-              Entrar
-            </MDBBtn>
-
-            <div className='text-center'>
-              <p>
-                ¿No es miembro? <a href='#!'>Regístrese</a>
-              </p>
-            </div>
-          </form>
-        </MDBTabsPane>
-        <MDBTabsPane show={loginRegisterActive === 'register'}>
-          <form>
-
-            <MDBInput className='mb-4' id='form8Example1' label='Nombre' />
-            <MDBInput className='mb-4' id='form8Example2' label='Apellidos' />
-            <MDBInput className='mb-4' type='date' id='form8Example2' label='Fecha de nacimiento' />
-            <MDBInput className='mb-4' type='email' id='form8Example3' label='Email' />
-            <MDBInput className='mb-4' type='password' id='form8Example4' label='Contraseña' />
-            <MDBInput className='mb-4' type='password' id='form8Example5' label='Repetir contraseña' />
-
-            <MDBCheckbox
-              wrapperClass='d-flex justify-content-center mb-4'
-              id='form8Example6'
-              label='He leído y estoy de acuerdo con los términos y condiciones del servicio'
-            />
-
-            <MDBBtn type='submit' className='mb-4' block>
-              Darse de alta
-            </MDBBtn>
-          </form>
-        </MDBTabsPane>
-      </MDBTabsContent>
-    </div>
+      <MDBBtn type='submit' block onClick={handleSubmit}>Enviar</MDBBtn>
+      <div className='text-center my-5'>
+        <p>
+          ¿No está registrado? <a href='/registro'>Regístrese</a>
+        </p>
+      </div>
+      </MDBValidation>
   );
 }
+
