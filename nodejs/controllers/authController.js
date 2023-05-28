@@ -30,7 +30,7 @@ function login(req,res){
                                 }
                             })
                         }else{
-                            res.status(200).send({message: 'Contraseña incorrecta'});
+                            res.status(403).send({message: 'Contraseña incorrecta'});
                         }
                   }).catch(error => {
                     console.log(error);

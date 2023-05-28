@@ -1,12 +1,11 @@
 import './assets/styles/App.css';
 import { Routes, Route } from "react-router-dom";
-import Navbar from './components/navbar/Navbar'
-import Breadcrumbs from './components/navbar/Breadcrumbs'
-import Footer from './components/footer/Footer'
+import Header from './components/comunes/Header'
+import Footer from './components/comunes/Footer'
 //import Layout from "./pages/Layout";
 import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Registro from "./pages/Registro";
+import Acceso from "./pages/Acceso";
+import Viajes from "./pages/Viajes";
 //import Contact from "./pages/Contact";
 //import NoPage from "./pages/NoPage";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -14,13 +13,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   return (
     <>
-      <Navbar />
-      <Breadcrumbs />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/acceso" element={<Login/>} />
-          <Route path="/registro" element={<Registro />} />
-        </Routes>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/acceso" element={<Acceso />} />
+        <Route path="/viajes" element={<Viajes />} />
+      </Routes>
       <Footer />
     </>
   );
