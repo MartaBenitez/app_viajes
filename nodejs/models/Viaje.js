@@ -46,6 +46,10 @@ const ViajeSchema = new Schema({
         type: Number,
         min: 0
     },
+    color: {
+        type: String,
+        default:'#3CC2F5'
+    },
     dias: {
         type: Array
     }
