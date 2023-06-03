@@ -1,0 +1,17 @@
+.circle-picker {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .color-circle {
+    width: 18px;
+    height: 20px;
+    border-radius: 10%;
+    margin: 4px;
+    cursor: pointer;
+  }
+  
+  .selected {
+    border: 2px solid black;
+  }

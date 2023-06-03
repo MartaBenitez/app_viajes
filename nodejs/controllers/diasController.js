@@ -15,6 +15,20 @@ function recuperarUno(req, res) {
         });
 }
 
+function recuperarDias(req, res) {
+    const idViaje=req.params.id;
+    dias.find({'idViaje': idViaje})
+        .then(diasLeidos => {
+            return res.send(diasLeidos && diasLeidos.length ? diasLeidos : []);
+        })
+        .catch(error => {
+            return res.status(400).send({
+                status: 'error' + error
+            });
+        });
+
+}
+
 
 function modificar(req, res) {
     let dia = req.body;
@@ -35,6 +49,6 @@ function modificar(req, res) {
 
 
 
-module.exports = {modificar, recuperarUno };
+module.exports = {modificar, recuperarUno, recuperarDias};
 
 

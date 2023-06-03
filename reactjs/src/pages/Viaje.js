@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import Breadcrumbs from '../components/comunes/Breadcrumbs';
-import Calendario from '../components/calendarios/Calendario';
 import Navbar from '../components/comunes/NavbarUser';
-import DesplegableViajes from '../components/desplegables/DesplegableViajes';
-import { pedirViajes } from '../api/Calendario';
+import {pedirDiasViaje} from '../api/Viajes';
 
-const Viajes = () => {
+const Viaje = () => {
 
     const [listaViajes, setListaViajes] = useState([]);
 
     useEffect(() => {
-        pedirViajes()
+        pedirDiasViaje()
             .then(response => {
                 const listaViajes = response.data;
-                if (listaViajes.length == 0) {
+                if (listaViajes.length === 0) {
                     console.log("no hay viajes")
-                } else { setListaViajes(listaViajes); console.log({ listaViajes }) }
+                } else { setListaViajes(listaViajes)}
             })
             .catch(error => {
                 console.log('Error:', error);
@@ -27,12 +25,11 @@ const Viajes = () => {
             <Breadcrumbs />
             <div class="container text-center bg-light">
                 <div className="row justify-content-left">
-                    <Calendario listaViajes={listaViajes} />
-                    <DesplegableViajes listaViajes={listaViajes} />
+
                 </div>
             </div>
         </>
     );
 }
 
-export default Viajes;
+export default Viaje;

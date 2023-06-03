@@ -16,7 +16,6 @@ export default function Calendario({ listaViajes }) {
       firstDay: 1,
       initialView: 'dayGridMonth',
       height: 'auto',
-      buttonText: { today: 'Hoy' },
       events: listaViajesEsquema,
     }
     console.log(listaViajesEsquema)

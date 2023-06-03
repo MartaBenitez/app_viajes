@@ -31,7 +31,14 @@ db.on('error', () => { // si hay un fallo de la conexión se vuelve a intentar p
 });
 
 db.on('connected', () => { // si hay conexión
-
+    const corsOptions = {
+        origin: true,
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+        credentials: true,
+      };
+      
+    app.use(cors(corsOptions));
     app.use(authToken);
 
     app.use('/',routerAuth); 

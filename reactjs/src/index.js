@@ -9,6 +9,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
+require('cors');
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

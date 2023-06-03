@@ -17,37 +17,43 @@ function recuperarTodos(req, res) {
         });
 }
 
-
-function recuperarMios(req, res) { 
-    const id=req.params.id;
-    usuarios.findOne({ '_id': id})
-        .then(usuarioLeido => {
-            let misviajes = usuarioLeido.viajes;
-            if(!misviajes||misviajes.length==0){
-                return res.send([]);
-            }else{
-                let listaViajes=[];
-                misviajes.forEach(viaje =>{
-                    viajes.findOne({ '_id': viaje})
-                    .then(viajeLeido => {
-                       listaViajes.push(viajeLeido);
-                       return res.send(listaViajes);
-                    })
-                    .catch(error => {
-                        return res.status(400).send({
-                            status: 'error' + error
-                        });
-                    });
-                });
-                
-            }
-        })
-        .catch(error => {
-            return res.status(400).send({
-                status: 'error' + error
+function recuperarMios(req, res) {
+    const id = req.params.id;
+  
+    usuarios
+      .findOne({ _id: id })
+      .then((usuarioLeido) => {
+        let misviajes = usuarioLeido.viajes;
+  
+        if (!misviajes || misviajes.length == 0) {
+          return res.send([]);
+        } else {
+          let listaPromesas = [];
+  
+          misviajes.forEach((viaje) => {
+            let promesaViaje = viajes.findOne({ _id: viaje });
+            listaPromesas.push(promesaViaje);
+          });
+  
+          Promise.all(listaPromesas)
+            .then((viajesLeidos) => {
+              return res.send(viajesLeidos);
+            })
+            .catch((error) => {
+              return res.status(400).send({
+                status: 'error' + error,
+              });
             });
+        }
+      })
+      .catch((error) => {
+        return res.status(400).send({
+          status: 'error' + error,
         });
-}
+      });
+  }  
+
+
 function recuperarUno(req, res) { 
     const id=req.params.id;
     viajes.findOne({ '_id': id})
