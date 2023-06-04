@@ -103,36 +103,85 @@ function addNuevo(req, res) {
 
 function modificar(req, res) {
     let viaje = req.body;
-    const id=req.params.id;
-    viajes.findOne({ '_id': id })
-        .then((viajeLeido) => {
-            if(viaje.numDias!=viajeLeido.numDias || viaje.fechaInicio!=viajeLeido.fechaInicio){
-                let resultado=modificarDias(viaje,viajeLeido);
-                if(resultado=="correcto"){
-                    viajes.updateOne({'_id':viajeLeido._id},viaje) .then(() => {
-                        return res.send({
-                            status: 'correcto'
-                        });
-                    })
-                    .catch(error => {
-                        return res.status(400).send({
-                            status: 'error' + error
-                        });
-                    })
-                }else{
-                    return res.status(400).send({
-                        status: 'error' + resultado
-                    })
-                }
-                
-            }})
-        .catch(error => {
+    const id = req.params.id;
+  
+    viajes
+      .findOne({ _id: id })
+      .then((viajeLeido) => {
+        modificarDias(viaje, viajeLeido)
+          .then((resultado) => {
+            if (resultado === "correcto") {
+              viajes
+                .updateOne({ _id: viajeLeido._id }, viaje)
+                .then(() => {
+                  return res.send({
+                    status: 'correcto',
+                  });
+                })
+                .catch((error) => {
+                  return res.status(400).send({
+                    status: 'error' + error,
+                  });
+                });
+            } else {
+              return res.status(400).send({
+                status: 'error' + resultado,
+              });
+            }
+          })
+          .catch((error) => {
             return res.status(400).send({
-                status: 'error' + error
+              status: 'error' + error,
             });
+          });
+      })
+      .catch((error) => {
+        return res.status(400).send({
+          status: 'error' + error,
         });
-   
-}
+      });
+  }
+  
+  function modificarDias(nuevoViaje, viajeLeido) {
+    return new Promise((resolve, reject) => {
+      const numDias = nuevoViaje.numDias;
+      let fechaInicio = new Date(nuevoViaje.fechaInicio);
+      let listaDias = [];
+  
+      dias.deleteMany({ "idViaje": viajeLeido._id })
+        .then(() => {
+          const createPromises = [];
+  
+          for (let i = 0; i < numDias; i++) {
+            const createPromise = dias.create({ 'idViaje': viajeLeido._id, 'fecha': fechaInicio });
+            createPromises.push(createPromise);
+            fechaInicio.setDate(fechaInicio.getDate() + 1);
+          }
+  
+          Promise.all(createPromises)
+            .then((diasInsertados) => {
+              listaDias = diasInsertados.map((dia) => dia._id);
+              nuevoViaje.dias = listaDias;
+  
+              viajes.updateOne({ "_id": viajeLeido._id }, { $set: { 'dias': listaDias } })
+                .then(() => {
+                  resolve("correcto");
+                })
+                .catch((error) => {
+                  reject(error);
+                });
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+  
+
 
 function eliminar(req, res) { 
     viajes.findOne({ '_id': req.params.id})
@@ -169,50 +218,19 @@ function eliminar(req, res) {
 
 module.exports = { eliminar, modificar, addNuevo, recuperarTodos, recuperarMios, recuperarUno };
 
-function anadirDias(viaje){
-    let numDias=viaje.numDias;
-    let fechaInicio=viaje.fechaInicio;
-    for(let i=0;i<numDias;i++){
-        dias.create({'idViaje':viaje._id,'fecha':fechaInicio})
-        .then((diaInsertado) => {
-            viajes.updateOne({"_id":viaje._id},{$push:{'dias':diaInsertado._id}}).catch(error => {
-                return error;
-            });
-        })
-        .catch(error => {
-            return error;
-        });
-        fechaInicio=fechaInicio+1;
-    } 
-    return "correcto";
-}
+async function anadirDias(viaje) {
+    try {
+      const numDias = viaje.numDias;
+      let fechaInicio = new Date(viaje.fechaInicio);
+      for (let i = 0; i < numDias; i++) {
+        const diaInsertado = await dias.create({ idViaje: viaje._id, fecha: fechaInicio });
+        await viajes.updateOne({ "_id": viaje._id }, { $push: { dias: diaInsertado._id } });
+        fechaInicio.setDate(fechaInicio.getDate() + 1);
+      }
+      return "correcto";
+    } catch (error) {
+      return error;
+    }
+  }
+  
 
-function modificarDias(nuevoViaje,viajeLeido){
-    let numDias=nuevoViaje.numDias;
-    let fechaInicio=nuevoViaje.fechaInicio;
-    let listaDias=[];
-    dias.deleteMany({"idViaje":viajeLeido._id})
-    .then(() => {
-        for(let i=0;i<numDias;i++){
-            dias.create({'idViaje':viajeLeido._id,'fecha':fechaInicio})
-            .then((diaInsertado) => {
-                listaDias.push(diaInsertado._id)
-            })
-            .catch(error => {
-                return error;
-            });
-            fechaInicio=fechaInicio+1;
-        }
-        viajes.updateOne({"_id":viajeLeido._id},{$set:{'dias':listaDias}})
-            .then(()=>{
-                return "correcto";
-            })
-            .catch(error => {
-                return error;
-            });
-
-    })
-    .catch(error => {
-        return error;
-    });
-}

@@ -15,6 +15,10 @@ const EventoSchema = new Schema({
         type: Schema.ObjectId,
         required:true
     },
+    idViaje: {
+        type: Schema.ObjectId,
+        required:true
+    },
     fechaInicio: {
         type: Date,
         required: true
@@ -29,7 +33,6 @@ const EventoSchema = new Schema({
     },
     descripcion: {
         type: String,
-        minLength: 1,
         maxLength: 1500
     },
     enlace:{

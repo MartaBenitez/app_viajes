@@ -15,12 +15,17 @@ const MisViajes = () => {
                 const listaViajes = response.data;
                 if (listaViajes.length === 0) {
                     console.log("no hay viajes")
-                } else { setListaViajes(listaViajes)}
+                } else { ordenarViajes(listaViajes)}
             })
             .catch(error => {
                 console.log('Error:', error);
             });
     }, []);
+
+    function ordenarViajes(lista){
+        lista.sort((a, b)=>a.fechaInicio>b.fechaInicio);
+        setListaViajes(lista);
+    }
     
     return (
         <>  <Navbar />

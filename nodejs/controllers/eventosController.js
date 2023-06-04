@@ -5,25 +5,13 @@ const eventos = mongoose.model('Eventos');
 
 function recuperarTodos(req, res) { 
     const id=req.params.id;
-    dias.findOne({ '_id': id})
-        .then(diaLeido => {
-            let miseventos = diaLeido.eventos;
-            if(!miseventos||miseventos.length==0){
+    eventos.find({ 'idViaje': id})
+        .then(eventos => {
+            let listaEventos = eventos;
+            if(!listaEventos||listaEventos.length==0){
                 return res.send([]);
             }else{
-                let listaEventos=[];
-                miseventos.forEach(evento =>{
-                    eventos.findOne({ '_id': evento})
-                    .then(eventoLeido => {
-                       listaEventos.push(eventoLeido);
-                       return res.send(listaEventos);
-                    })
-                    .catch(error => {
-                        return res.status(400).send({
-                            status: 'error' + error
-                        });
-                    });
-                });
+                return res.send(listaEventos);
             }
         })
         .catch(error => {

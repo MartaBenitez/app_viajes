@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import BorradoViaje from '../ventanas/BorradoViaje'
 import NuevoViaje from '../formularios/NuevoViaje';
+import EdicionViaje from '../formularios/EdicionViaje';
 import { Accordion, AccordionItem, AccordionButton, AccordionPanel, Box, Button } from '@chakra-ui/react'
 import { ChevronDownIcon } from '@chakra-ui/icons'
 
 
 export default function DesplegableViajes({ listaViajes }) {
+
     const [selectedItem, setSelectedItem] = useState(null);
     const handleAccordionButtonClick = (index) => {
         setSelectedItem(selectedItem === index ? null : index);
@@ -16,8 +18,9 @@ export default function DesplegableViajes({ listaViajes }) {
         return fechaCompleta.getDate()+'-'+(fechaCompleta.getMonth()+1)+'-'+fechaCompleta.getFullYear();
     }
 
-    function planificar(viaje){
-
+    function planificar(event,viaje){
+        event.preventDefault();
+        window.location.href='/eventos?viaje='+viaje.nombre+'&id='+viaje._id;
     }
     
     return (
@@ -44,9 +47,8 @@ export default function DesplegableViajes({ listaViajes }) {
                                     <li>Número personas: {viaje.numPersonas}</li>
                                     <li>Presupuesto: {viaje.presupuesto} €</li>
                                 </ul>
-                                <Button colorScheme='blue'>Editar</Button>
                                 <EdicionViaje viaje={viaje} />
-                                <Button colorScheme='blue' onClick={planificar(viaje)}>Planificar</Button>
+                                <Button colorScheme='blue' onClick={(event)=>{planificar(event,viaje)}}>Planificar</Button>
                                 <BorradoViaje viaje={viaje}/>
                             </AccordionPanel>
                         )}

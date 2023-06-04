@@ -29,7 +29,6 @@ function recuperarDias(req, res) {
 
 }
 
-
 function modificar(req, res) {
     let dia = req.body;
     const id=req.params.id;
