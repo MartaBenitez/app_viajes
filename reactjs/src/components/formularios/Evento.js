@@ -22,7 +22,8 @@ const Evento = ({ listaDias, listaEventos }) => {
     let fecha = moment(evento.fechaInicio).format('DD/MM/YYYY HH:mm');
     const registro = {
       nombre: evento.nombre,
-      fechaInicio: fecha
+      fechaInicio: fecha,
+      id: evento._id
     };
     return registro;
   });
@@ -57,7 +58,7 @@ const Evento = ({ listaDias, listaEventos }) => {
       {listaEventos.length > 0 && (
         <ChakraProvider>
           <div>
-            <PaginatedTable columns={columns} data={data} />
+            <PaginatedTable columns={columns} data={data}/>
           </div>
         </ChakraProvider>
       )}

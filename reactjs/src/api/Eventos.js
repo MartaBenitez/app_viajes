@@ -18,3 +18,9 @@ export function pedirEventos(idViaje){
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
     return axios.get(urlPeticiones+'/eventos/miseventos/'+idViaje)
 }
+
+export function borrarEvento(evento){
+    const token = sessionStorage.getItem('token');
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+    return axios.delete(urlPeticiones+'/eventos/'+ evento)
+}
