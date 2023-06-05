@@ -41,6 +41,12 @@ const EventoSchema = new Schema({
     ubicacion: {
         type: String
     },
+    longitud: {
+        type: Number
+    },
+    latitud: {
+        type: Number
+    },
     precio: {
         type: Number,
         min: 0

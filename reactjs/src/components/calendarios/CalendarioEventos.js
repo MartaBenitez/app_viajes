@@ -11,12 +11,16 @@ export default function CalendarioEventos({listaDias, listaEventos}) {
   const calendarRef = useRef(null);
   const [selectedDate, setSelectedDate] = useState(null);
 
-
+  const eventosCalendario = listaEventos.map(evento => ({
+    title: evento.nombre,
+    start: evento.fechaInicio,
+    end: evento.fechaFin
+  }));
+console.log(eventosCalendario)
   useEffect(() => {
     if (listaDias.length === 0) {
       return;
     }
-
 
     const primerDia = new Date(listaDias[0].fecha);
     const primerDiaF = primerDia.toISOString().split('T')[0];
@@ -29,6 +33,7 @@ export default function CalendarioEventos({listaDias, listaEventos}) {
       plugins: [timeGridPlugin, momentPlugin, interactionPlugin],
       locale: 'es',
       initialView: 'timeGridDay',
+      events:eventosCalendario,
       validRange: {
         start: primerDiaF,
         end: ultimoDiaF,
@@ -45,10 +50,12 @@ export default function CalendarioEventos({listaDias, listaEventos}) {
         },
       },
       selectable: true,
-      select: handleDateSelect,
+      select: handleDateSelect
     });
 
     calendar.render();
+
+
 
     return () => {
       calendar.destroy();

@@ -28,12 +28,17 @@ const Viaje = () => {
                 const listaEventos= response.data;
                 if (listaEventos.length === 0) {
                     console.log("no hay eventos")
-                } else { setListaEventos(listaEventos);}
+                } else { ordenarEventos(listaEventos);}
             })
             .catch(error => {
                 console.log('Error:', error);
             });
     }, []);
+
+    function ordenarEventos(lista){
+        lista.sort((a, b)=>a.fechaInicio>b.fechaInicio);
+        setListaEventos(lista);
+    }
 
     return (
         <>  <Navbar />

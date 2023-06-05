@@ -1,0 +1,19 @@
+.suggestions-container {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    z-index: 9999;
+  }
+  
+  .suggestion-item {
+    padding: 5px;
+    cursor: pointer;
+  }
+  
+  .suggestion-item:hover {
+    background-color: #f0f0f0;
+    font-weight: bold;
+  }
+  

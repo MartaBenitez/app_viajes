@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form'
 import { guardarEvento } from '../../api/Eventos';
 import SelectorImagenes from './SelectorImagenes';
+import Geocoder from '../tablas/Geocoder';
 
 export default function CrearEvento({ listaDias }) {
 
@@ -36,7 +37,9 @@ export default function CrearEvento({ listaDias }) {
          tipo: imagenTipo,
          descripcion: evento.descripcion,
          enlace: evento.enlace,
-         ubicacion: evento.ubicación,
+         ubicacion:selectedLocation.name,
+         longitud: selectedLocation.longitude,
+         latitud: selectedLocation.latitude,
          precio: evento.precio
       }
       guardarEvento(objEvento)
@@ -66,6 +69,12 @@ export default function CrearEvento({ listaDias }) {
    }
 
    const [imagenTipo, setImagenTipo] = useState("desplazamiento");
+
+   const [selectedLocation, setSelectedLocation] = useState(null);
+
+   const handleLocationSelect = (location) => {
+     setSelectedLocation(location);
+   };
 
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -112,7 +121,8 @@ export default function CrearEvento({ listaDias }) {
                   ))}
                </Select>
             </FormControl>
-
+            <FormLabel htmlFor="ubicacion">Lugar</FormLabel>
+            <Geocoder onLocationSelect={handleLocationSelect.bind(this)} />
             <FormControl isInvalid={errors.descripcion}>
                <FormLabel htmlFor="descripcion">Descripción</FormLabel>
                <Textarea
@@ -124,10 +134,6 @@ export default function CrearEvento({ listaDias }) {
             <FormControl isInvalid={errors.enlace}>
                <FormLabel htmlFor="enlace">Enlace</FormLabel>
                <Input type='url' id='enlace' {...register('enlace')} />
-            </FormControl>
-            <FormControl isInvalid={errors.ubicacion}>
-               <FormLabel htmlFor="ubicacion">Ubicación</FormLabel>
-               <Input type='text' id='ubicacion' {...register('ubicacion')} />
             </FormControl>
             <FormControl isInvalid={errors.presupuesto}>
                <FormLabel htmlFor="presupuesto">Precio</FormLabel>
