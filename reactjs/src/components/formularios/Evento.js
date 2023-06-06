@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
 import { useDisclosure, ChakraProvider, Button, Drawer, DrawerCloseButton, DrawerOverlay, DrawerContent, DrawerHeader, DrawerFooter, DrawerBody } from '@chakra-ui/react';
 import CrearEvento from './CreacionEvento';
-import PaginatedTable from '../tablas/TablaEventos';
 import moment from 'moment';
-import Mapa from '../tablas/Geocoder';
-import MapaMarcadores from '../tablas/MapaMarcadores';
+import MapaMarcadores from '../mapas/MapaMarcadores';
+import DesplegableEventos from '../desplegables/DesplegableEventos';
 
 const Evento = ({ listaDias, listaEventos }) => {
 
@@ -13,10 +12,6 @@ const Evento = ({ listaDias, listaEventos }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = React.useRef()
 
-  const columns = [
-    { Header: 'Nombre', accessor: 'nombre' },
-    { Header: 'Fecha', accessor: 'fechaInicio' }
-  ];
 
   const data = listaEventos.map((evento) => {
     let fecha = moment(evento.fechaInicio).format('DD/MM/YYYY HH:mm');
@@ -58,7 +53,7 @@ const Evento = ({ listaDias, listaEventos }) => {
       {listaEventos.length > 0 && (
         <ChakraProvider>
           <div>
-            <PaginatedTable columns={columns} data={data}/>
+            <DesplegableEventos listaDias={listaDias} listaEventos={listaEventos}/>
           </div>
         </ChakraProvider>
       )}

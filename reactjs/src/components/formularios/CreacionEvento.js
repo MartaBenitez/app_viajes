@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form'
 import { guardarEvento } from '../../api/Eventos';
 import SelectorImagenes from './SelectorImagenes';
-import Geocoder from '../tablas/Geocoder';
+import Geocoder from '../mapas/Geocoder';
 
 export default function CrearEvento({ listaDias }) {
 
