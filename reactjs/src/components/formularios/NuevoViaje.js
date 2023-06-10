@@ -24,6 +24,7 @@ export default function NuevoViaje() {
                 console.log(res);
                 if (res.status === 200) {
                     alert('viaje guardado correctamente');
+                    window.location.reload();
                 }
             }).catch(res => {
                 console.log(res); // Maneja el error de la petición
@@ -83,7 +84,7 @@ export default function NuevoViaje() {
                             <NumberInputField  {...register('presupuesto')} />
                         </NumberInput>
                     </FormControl>
-                    <Button type="submit" isLoading={isSubmitting} colorScheme='teal'>
+                    <Button type="submit" isLoading={isSubmitting} bg='#ED7C6F' color='white'>
                         Guardar viaje
                     </Button>
                 </Stack>
@@ -95,7 +96,7 @@ export default function NuevoViaje() {
 
     return (
         <>
-            <Button colorScheme='teal' onClick={onOpen}>
+            <Button bg='#ED7C6F' className='mb-2' color='white' onClick={onOpen}>
                 Crear nuevo viaje
             </Button>
             <Drawer

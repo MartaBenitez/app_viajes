@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Tabs, TabList,Tab } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import { IoMdHome } from 'react-icons/io';
 
 
 export default function Navbar() {
@@ -13,21 +14,51 @@ export default function Navbar() {
   };
 
   return (
-    <Tabs variant='enclosed' className="bg-light" isFitted index={activeTab}>
-      <TabList mb='1em'>
-        <Tab onClick={() => handleTabClick(0, '/')}>
-        <i class="fas fa-house-chimney"></i>
-        </Tab>
-        <Tab onClick={() => handleTabClick(1, '/sobre-producto')}>
-          Sobre el producto
-        </Tab>
-        <Tab onClick={() => handleTabClick(2, '/sobre-nosotros')}>
-          Sobre nosotros
-        </Tab>
-        <Tab onClick={() => handleTabClick(3, '/acceso')}>
-          Accede
-        </Tab>
-      </TabList>
-    </Tabs>
+    <Tabs
+    variant='enclosed'
+    borderColor="#6CC6E9"
+    isFitted
+    index={activeTab}
+  >
+    <TabList mb="1em">
+      <Tab onClick={() => handleTabClick(0, '/')} 
+          sx={{
+            '&[aria-selected="true"]': {
+              color: 'black',
+              bg:'#6CC6E9'
+            },
+            '&:hover': {
+              boxShadow: 'inset 0px -4px 0px  #FFDB70',
+            },
+          }}>
+        <IoMdHome />
+        Inicio
+      </Tab>
+      <Tab onClick={() => handleTabClick(1, '/sobre-nosotros')}
+      sx={{
+        '&[aria-selected="true"]': {
+          color: 'black',
+          bg:'#6CC6E9'
+        },
+        '&:hover': {
+          boxShadow: 'inset 0px -4px 0px  #FFDB70',
+        },
+      }}>
+        Acerca de nosotros
+      </Tab>
+      <Tab onClick={() => handleTabClick(2, '/acceso')}
+      sx={{
+        '&[aria-selected="true"]': {
+          color: 'black',
+          bg:'#6CC6E9'
+        },
+        '&:hover': {
+          boxShadow: 'inset 0px -4px 0px  #FFDB70',
+        },
+      }}>
+        Accede
+      </Tab>
+    </TabList>
+  </Tabs>
   );
 }

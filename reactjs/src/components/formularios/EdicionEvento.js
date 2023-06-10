@@ -24,7 +24,6 @@ export default function EdicionEvento({listaDias, evento }) {
        const fechaI = `${fechaICombinada.getFullYear()}-${(fechaICombinada.getMonth() + 1).toString().padStart(2, '0')}-${fechaICombinada.getDate().toString().padStart(2, '0')} ${fechaICombinada.getHours().toString().padStart(2, '0')}:${fechaICombinada.getMinutes().toString().padStart(2, '0')}:${fechaICombinada.getSeconds().toString().padStart(2, '0')}`;
        const [horas, minutos] = evento.duracion.split(':').map(part => parseInt(part, 10));
  
-       // Sumar las horas y los minutos a la fechaICombinada
        fechaICombinada.setHours(fechaICombinada.getHours() + horas);
        fechaICombinada.setMinutes(fechaICombinada.getMinutes() + minutos);
        const fechaF = `${fechaICombinada.getFullYear()}-${(fechaICombinada.getMonth() + 1).toString().padStart(2, '0')}-${fechaICombinada.getDate().toString().padStart(2, '0')} ${fechaICombinada.getHours().toString().padStart(2, '0')}:${fechaICombinada.getMinutes().toString().padStart(2, '0')}:${fechaICombinada.getSeconds().toString().padStart(2, '0')}`;
@@ -156,9 +155,9 @@ export default function EdicionEvento({listaDias, evento }) {
 
   return (
     <>
-    <Button colorScheme='teal' onClick={onOpen}>
+    <Button className='mx-2' color='black' bg='#6CC6E9' onClick={onOpen}>
     Editar evento
-  </Button>
+   </Button>
     <Drawer
                 isOpen={isOpen}
                 placement='right'

@@ -1,14 +1,15 @@
 import Acceso from '../components/formularios/Acceso';
 import Navbar from "../components/comunes/NavbarInicio";
 import Breadcrumbs from "../components/comunes/Breadcrumbs";
-const Home = () => {
+const Accede = () => {
+    const trail = [{nombre: 'Inicio',url:'/'},{nombre: 'Accede',url:'/acceso'}];
     return (
         <>  
             <Navbar/>
-            <Breadcrumbs/>
+            <Breadcrumbs trail={trail}/>
             <Acceso />
         </>
    );
 }
   
-  export default Home;
+  export default Accede;

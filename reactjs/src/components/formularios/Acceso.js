@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { logearUsuario, registrarUsuario } from '../../api/Acceso';
 import { validacionLogin, validacionRegistro } from './Validacion';
 import * as jose from 'jose';
-import { MDBRow, MDBCol, MDBInput, MDBCheckbox, MDBValidation, MDBValidationItem, MDBBtn, MDBTabs, MDBTabsItem, MDBTabsLink, MDBTabsContent, MDBTabsPane } from 'mdb-react-ui-kit';
-import { Alert, AlertIcon, AlertDescription, AlertTitle, CircularProgress } from '@chakra-ui/react';
+import { MDBInput, MDBValidation, MDBValidationItem, MDBBtn, MDBTabsContent, MDBTabsPane } from 'mdb-react-ui-kit';
+import { Button, HStack, Alert, AlertIcon, AlertDescription, AlertTitle, CircularProgress, Heading } from '@chakra-ui/react';
 
 export default function App() {
     const [loginRegisterActive, setLoginRegisterActive] = useState('login');
@@ -38,7 +38,8 @@ export default function App() {
                         } else {
                             window.setTimeout(function () { window.location = "/viajes"; }, 5000)
                         }
-                    }})
+                    }
+                })
                 .catch(res => {
                     console.log(res); // Maneja el error de la petición
                     setErrorLogged(true);
@@ -96,43 +97,38 @@ export default function App() {
     return (
         <div class="container text-center bg-light">
             <div className="row justify-content-center">
-                <div className="col-12 col-md-10 col-lg-8 align-self-center">
-                    <MDBTabs pills justify className='mb-3'>
-                        <MDBTabsItem>
-                            <MDBTabsLink
-                                onClick={() => handleLoginRegisterClick('login')}
-                                active={loginRegisterActive === 'login'}
-                            >
-                                Entra
-                            </MDBTabsLink>
-                        </MDBTabsItem>
-                        <MDBTabsItem>
-                            <MDBTabsLink
-                                onClick={() => handleLoginRegisterClick('register')}
-                                active={loginRegisterActive === 'register'}
-                            >
-                                Regístrate
-                            </MDBTabsLink>
-                        </MDBTabsItem>
-                    </MDBTabs>
-
+                <div className="col-12 col-md-10 col-lg-8 mb-4 align-self-center">
+                    <HStack spacing={4} className='pb-4' justify="center">
+                        <Button
+                            variant="solid"
+                            flex={1}
+                            bg="#ED7C6F"
+                            onClick={() => handleLoginRegisterClick('login')}
+                            isActive={loginRegisterActive === 'login'}
+                        >
+                            Entra
+                        </Button>
+                        <Button
+                            variant="solid"
+                            flex={1}
+                            bg="#ED7C6F"
+                            onClick={() => handleLoginRegisterClick('register')}
+                            isActive={loginRegisterActive === 'register'}
+                        >
+                            Regístrate
+                        </Button>
+                    </HStack>
                     <MDBTabsContent>
                         <MDBTabsPane show={loginRegisterActive === 'login'}>
                             <MDBValidation className='row g-3' isValidated>
+                                <label>Email</label>
                                 <MDBValidationItem className='col-md-12 my-2' feedback='Email incorrecto.' invalid>
-                                    <MDBInput className='form-control' type='email' id='email' name='email' label='Email' onChange={onChangeLogin} required />
+                                    <MDBInput className='form-control' type='email' name='email' onChange={onChangeLogin} required />
                                 </MDBValidationItem>
+                                <label>Contraseña</label>
                                 <MDBValidationItem className='col-md-12 my-2' feedback='Contraseña incorrecta. Solo puede contener letras, números y/o los caracteres *?#@$. Entre 8 y 25 caracteres en total.' invalid>
-                                    <MDBInput className='form-control' type='password' id='contrasena' name='contrasena' label='Contraseña' onChange={onChangeLogin} pattern="[a-zA-Z0-9*?#@$]{8,25}" required />
+                                    <MDBInput className='form-control' type='password' id='contrasena' name='contrasena' onChange={onChangeLogin} pattern="[a-zA-Z0-9*?#@$]{8,25}" required />
                                 </MDBValidationItem>
-                                <MDBRow className='mb-4 my-4'>
-                                    <MDBCol className='d-flex justify-content-center'>
-                                        <MDBCheckbox id='recuerdame' label='Recordar datos acceso' />
-                                    </MDBCol>
-                                    <MDBCol>
-                                        <a href='#!'>¿Olvidó su contraseña?</a>
-                                    </MDBCol>
-                                </MDBRow>
                                 {isLogged && (
                                     <div>
                                         <Alert
@@ -161,8 +157,16 @@ export default function App() {
                                         Error al iniciar sesión
                                     </Alert>
                                 )}
+                                <Button
+                                    variant="solid"
+                                    flex='full'
+                                    bg='#70AC62'
+                                    type='submit'
+                                    onClick={handleSubmitLogin}
+                                >
+                                    Enviar
+                                </Button>
 
-                                <MDBBtn className="mb-4" type='submit' block onClick={handleSubmitLogin}>Enviar</MDBBtn>
                             </MDBValidation>
                         </MDBTabsPane>
                         <MDBTabsPane show={loginRegisterActive === 'register'}>

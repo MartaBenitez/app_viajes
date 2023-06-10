@@ -4,6 +4,7 @@ import Navbar from '../components/comunes/NavbarUser';
 import {pedirDiasViaje, pedirEventos} from '../api/Eventos';
 import { useLocation } from 'react-router-dom';
 import CalendarioEventos from '../components/calendarios/CalendarioEventos';
+import { Heading } from '@chakra-ui/react';
 
 const Viaje = () => {
     const location = useLocation();
@@ -39,13 +40,13 @@ const Viaje = () => {
         lista.sort((a, b)=>a.fechaInicio>b.fechaInicio);
         setListaEventos(lista);
     }
-
+    const trail = [{nombre: 'Inicio',url:'/'},{nombre: 'Mis viajes',url:'/viajes'}];
     return (
         <>  <Navbar />
-            <Breadcrumbs />
-            <div class="container text-center bg-light">
+            <Breadcrumbs trail={trail}/>
+            <div class="container text-center bg-light" style={{marginBottom:"5rem"}}>
                 <div className="row justify-content-left">
-                <h3>{nombre}</h3>
+                <Heading as='h4'>{nombre}</Heading>
                     <CalendarioEventos listaDias={listaDias} listaEventos={listaEventos}/>
                 </div>
             </div>

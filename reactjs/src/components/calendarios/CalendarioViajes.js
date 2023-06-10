@@ -1,10 +1,9 @@
 import React from 'react';
 import { crearEventos } from './Funciones';
-import FullCalendar from '@fullcalendar/react' // must go before plugins
-import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid' 
 import momentPlugin from '@fullcalendar/moment';
-
-import 'moment/locale/es'; // Importa el archivo de idioma que deseas utilizar
+import 'moment/locale/es';
 
 export default function Calendario({ listaViajes }) {
   let calendarOptions;
@@ -30,6 +29,7 @@ export default function Calendario({ listaViajes }) {
       initialView: 'dayGridMonth',
       height: 'auto',
       buttonText: { today: 'Hoy' },
+      themeSystem: 'bootstrap'
     }
   }
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import mapboxSdk from '@mapbox/mapbox-sdk';
 import mapboxGeocoding from '@mapbox/mapbox-sdk/services/geocoding';
+import {Input, Button} from "@chakra-ui/react";
 
 const geocodingClient = mapboxGeocoding(mapboxSdk({ accessToken: 'pk.eyJ1IjoibWFydGExMjM0NSIsImEiOiJjbGlqNmcyZjMwNTl1M3BvNXAxdHViZ2RsIn0.bB3QeJthYJFxIgnlDbkoAw' }));
 
@@ -12,7 +13,7 @@ const Geocoder = ({ onLocationSelect }) => {
     try {
       const response = await geocodingClient.forwardGeocode({
         query,
-        types: ['place'],
+        types: [],
       }).send();
 
       if (response.body && response.body.features && response.body.features.length > 0) {
@@ -33,7 +34,7 @@ const Geocoder = ({ onLocationSelect }) => {
 
   return (
     <div>
-      <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} />
+      <Input type="text" value={query} onChange={(e) => setQuery(e.target.value)} />
 
       {suggestions.length > 0 && (
         <ul>
@@ -49,7 +50,7 @@ const Geocoder = ({ onLocationSelect }) => {
         </ul>
       )}
 
-      <button type="button" onClick={handleSearch}>Buscar</button>
+      <Button type="button" onClick={handleSearch}>Buscar</Button>
     </div>
   );
 };

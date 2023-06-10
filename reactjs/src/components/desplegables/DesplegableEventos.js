@@ -43,7 +43,7 @@ export default function DesplegableEventos({listaDias, listaEventos }) {
                 onClick={() => {
                   handleAccordionButtonClick(index);
                 }}
-                style={{ backgroundColor: '#245678' }}
+                style={{ backgroundColor: evento.color }}
               >
                 <Box as="span" flex="1" textAlign="left">
                   {evento.nombre}
@@ -53,7 +53,7 @@ export default function DesplegableEventos({listaDias, listaEventos }) {
             </h2>
             {selectedItem === index && (
               <AccordionPanel pb={4}>
-                <ul>
+                <ul style={{listStyle:'none'}}>
                   <li>Inicio: {parsearFecha(evento.fechaInicio)}</li>
                   <li>Fin: {evento.fechaFin}</li>
                 </ul>

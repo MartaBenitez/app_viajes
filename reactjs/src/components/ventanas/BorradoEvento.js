@@ -13,7 +13,9 @@ export default function BorradoEvento({evento}) {
     return (
         <Popover>
             <PopoverTrigger>
-                <Button>Borrar</Button>
+            <Button className='mx-2' color='black' bg='#6CC6E9'>
+    Borrar
+   </Button>
             </PopoverTrigger>
             <Portal>
                 <PopoverContent>

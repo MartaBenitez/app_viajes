@@ -13,10 +13,12 @@ export default function CalendarioEventos({listaDias, listaEventos}) {
 
   const eventosCalendario = listaEventos.map(evento => ({
     title: evento.nombre,
+    color:evento.color,
+    textColor:'black',
     start: evento.fechaInicio,
     end: evento.fechaFin
   }));
-console.log(eventosCalendario)
+  console.log(eventosCalendario)
   useEffect(() => {
     if (listaDias.length === 0) {
       return;
@@ -56,20 +58,15 @@ console.log(eventosCalendario)
     calendar.render();
 
 
-
     return () => {
       calendar.destroy();
     };
-  }, [listaDias]);
+  }, [listaDias,eventosCalendario]);
 
   function handleDateSelect(info) {
     const { startStr, endStr } = info;
-
-    setSelectedDate({ start: startStr, end: endStr });
-
-
+    setSelectedDate({ start: startStr, end: endStr })
   }
-
 
 
   return (

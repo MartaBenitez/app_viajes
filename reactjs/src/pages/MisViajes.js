@@ -6,7 +6,7 @@ import DesplegableViajes from '../components/desplegables/DesplegableViajes';
 import {pedirViajes} from '../api/Viajes';
 
 const MisViajes = () => {
-
+    const trail = [{nombre: 'Inicio',url:'/'},{nombre: 'Mis viajes',url:'/viajes'}];
     const [listaViajes, setListaViajes] = useState([]);
 
     useEffect(() => {
@@ -29,9 +29,9 @@ const MisViajes = () => {
     
     return (
         <>  <Navbar />
-            <Breadcrumbs />
+            <Breadcrumbs trail={trail}/>
             <div class="container text-center bg-light">
-                <div className="row justify-content-left">
+                <div className="row justify-content-left mb-5">
                     <Calendario listaViajes={listaViajes}/>
                     <DesplegableViajes listaViajes={listaViajes} />
                 </div>

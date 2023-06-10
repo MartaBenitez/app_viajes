@@ -1,15 +1,13 @@
 import Navbar from "../components/comunes/NavbarInicio";
 import Breadcrumbs from "../components/comunes/Breadcrumbs";
-import Informacion from "../components/otros/Informacion";
-const Home = () => {
-    const trail = [{nombre: 'Inicio',url:'/'}];
+const Nosotros = () => {
+    const trail = [{nombre: 'Inicio',url:'/'},{nombre: 'Acerca de nosotros',url:'/sobre-nosotros'}];
     return (
-        <>
+        <>  
             <Navbar/>
             <Breadcrumbs trail={trail}/>
-            <Informacion />
         </>
    );
 }
   
-  export default Home;
+  export default Nosotros;

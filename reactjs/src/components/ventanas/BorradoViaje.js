@@ -13,7 +13,9 @@ export default function BorradoViaje({viaje}) {
     return (
         <Popover>
             <PopoverTrigger>
-                <Button>Borrar</Button>
+            <Button  className='mx-2' color='black' bg='#6CC6E9'>
+    Borrar viaje
+  </Button>
             </PopoverTrigger>
             <Portal>
                 <PopoverContent>

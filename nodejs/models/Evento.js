@@ -50,6 +50,9 @@ const EventoSchema = new Schema({
     precio: {
         type: Number,
         min: 0
+    },
+    color: {
+        type:'string'
     }
 });
 

@@ -1,13 +1,25 @@
-import React from 'react';
-import { MDBBreadcrumb, MDBBreadcrumbItem } from 'mdb-react-ui-kit';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink} from '@chakra-ui/react';
+import { ChevronRightIcon } from '@chakra-ui/icons';
+import { Link } from 'react-router-dom';
 
-export default function Breacrumbs() {
+const BreadcrumbTrail = ({ trail }) => {
   return (
-      <MDBBreadcrumb>
-        <MDBBreadcrumbItem>
-          <a href='/'>Home</a>
-        </MDBBreadcrumbItem>
-        <MDBBreadcrumbItem active>Library</MDBBreadcrumbItem>
-      </MDBBreadcrumb>
-    )
+    <Breadcrumb spacing="8px" separator={<ChevronRightIcon color="gray.500" />}>
+      {trail.map((item, index) => (
+        <BreadcrumbItem key={index}>
+          {index === trail.length - 1 ? (
+            <BreadcrumbLink as={Link} to={item.url} fontWeight="bold" color="#70AC62">
+              {item.nombre}
+            </BreadcrumbLink>
+          ) : (
+            <BreadcrumbLink as={Link} to={item.url}>
+              {item.nombre}
+            </BreadcrumbLink>
+          )}
+        </BreadcrumbItem>
+      ))}
+    </Breadcrumb>
+  );
 };
+
+export default BreadcrumbTrail;

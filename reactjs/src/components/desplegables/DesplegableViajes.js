@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import BorradoViaje from '../ventanas/BorradoViaje'
 import NuevoViaje from '../formularios/NuevoViaje';
 import EdicionViaje from '../formularios/EdicionViaje';
-import { Accordion, AccordionItem, AccordionButton, AccordionPanel, Box, Button } from '@chakra-ui/react'
+import { Accordion, AccordionItem, AccordionButton, AccordionPanel, Box, Button, Heading } from '@chakra-ui/react'
 import { ChevronDownIcon } from '@chakra-ui/icons'
 
 
@@ -25,7 +25,7 @@ export default function DesplegableViajes({ listaViajes }) {
     
     return (
         <div className="col-12 col-md-4 col-lg-6">
-            <h3 className='mb-4'>Mis viajes</h3>
+            <Heading as='h3' className='mb-4'>Mis viajes</Heading>
             <NuevoViaje />
             <Accordion>
                 {listaViajes.map((viaje, index) => (
@@ -40,7 +40,7 @@ export default function DesplegableViajes({ listaViajes }) {
                         </h2>
                         {selectedItem === index && (
                             <AccordionPanel pb={4}>
-                                <ul>
+                                <ul style={{listStyle: 'none'}}>
                                     <li>Fecha inicio: {parsearFecha(viaje.fechaInicio)}</li>
                                     <li>Origen: {viaje.origen}</li>
                                     <li>Destino: {viaje.destino}</li>
@@ -48,7 +48,7 @@ export default function DesplegableViajes({ listaViajes }) {
                                     <li>Presupuesto: {viaje.presupuesto} €</li>
                                 </ul>
                                 <EdicionViaje viaje={viaje} />
-                                <Button colorScheme='blue' onClick={(event)=>{planificar(event,viaje)}}>Planificar</Button>
+                                <Button bg='#6CC6E9' className='mx-2' color='black' onClick={(event)=>{planificar(event,viaje)}}>Planificar</Button>
                                 <BorradoViaje viaje={viaje}/>
                             </AccordionPanel>
                         )}

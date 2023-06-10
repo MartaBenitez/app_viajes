@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { useDisclosure, ChakraProvider, Button, Drawer, DrawerCloseButton, DrawerOverlay, DrawerContent, DrawerHeader, DrawerFooter, DrawerBody } from '@chakra-ui/react';
+import React from 'react';
+import { useDisclosure, ChakraProvider, Heading, Button, Drawer, DrawerCloseButton, DrawerOverlay, DrawerContent, DrawerHeader, DrawerBody } from '@chakra-ui/react';
 import CrearEvento from './CreacionEvento';
 import moment from 'moment';
 import MapaMarcadores from '../mapas/MapaMarcadores';
@@ -13,7 +13,7 @@ const Evento = ({ listaDias, listaEventos }) => {
   const firstField = React.useRef()
 
 
-  const data = listaEventos.map((evento) => {
+ listaEventos.map((evento) => {
     let fecha = moment(evento.fechaInicio).format('DD/MM/YYYY HH:mm');
     const registro = {
       nombre: evento.nombre,
@@ -25,12 +25,12 @@ const Evento = ({ listaDias, listaEventos }) => {
 
   return (
     <div>
-      <h4>Eventos</h4>
+      <Heading as='h4' fontSize='xl'>Eventos</Heading>
 
       <div>
-        <Button colorScheme='teal' onClick={onOpen}>
-          Crear nuevo evento
-        </Button>
+      <Button bg='#ED7C6F' className='mb-2' color='white' onClick={onOpen}>
+    Crear nuevo evento
+   </Button>
         <Drawer
           isOpen={isOpen}
           placement='right'

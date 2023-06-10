@@ -11,9 +11,6 @@ export default function EdicionViaje({ viaje }) {
   manana.setDate(manana.getDate() + 1);
   const fechaManana = manana.toISOString().split("T")[0];
 
-  let dia = new Date(viaje.fechaInicio);
-
-  let diaFormateado=dia.getDate()+"/"+(dia.getMonth()+1)+"/"+dia.getFullYear();
 
   const {
     handleSubmit,
@@ -36,6 +33,7 @@ export default function EdicionViaje({ viaje }) {
         console.log(res);
         if (res.status === 200) {
           alert('Viaje actualizado correctamente');
+          window.location.reload();
         }
       })
       .catch(res => {
@@ -127,7 +125,7 @@ export default function EdicionViaje({ viaje }) {
 
   return (
     <>
-    <Button colorScheme='teal' onClick={onOpen}>
+    <Button  className='mx-2' color='black' bg='#6CC6E9' onClick={onOpen}>
     Editar viaje
   </Button>
     <Drawer

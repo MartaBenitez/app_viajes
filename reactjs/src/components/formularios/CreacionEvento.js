@@ -17,6 +17,19 @@ export default function CrearEvento({ listaDias }) {
    function onSubmit(evento) {
       const fechaICombinada = new Date(evento.dia);
       const horaFormateada = evento.horaInicio;
+      var color;
+
+      switch(imagenTipo){
+         case "desplazamiento": color='#FFDB70';
+         break;
+         case "comida": color='#FFDB70';
+         break; 
+         case "visita": color='#FFDB70';
+         break;
+         case "alojamiento": color='#ED7C6F';
+         break;
+         default: color='#c9a0dd';
+      }
 
       fechaICombinada.setHours(horaFormateada.split(':')[0]);
       fechaICombinada.setMinutes(horaFormateada.split(':')[1]);
@@ -40,7 +53,8 @@ export default function CrearEvento({ listaDias }) {
          ubicacion:selectedLocation.name,
          longitud: selectedLocation.longitude,
          latitud: selectedLocation.latitude,
-         precio: evento.precio
+         precio: evento.precio,
+         color: color
       }
       guardarEvento(objEvento)
          .then(response => {
@@ -122,7 +136,8 @@ export default function CrearEvento({ listaDias }) {
                </Select>
             </FormControl>
             <FormLabel htmlFor="ubicacion">Lugar</FormLabel>
-            <Geocoder onLocationSelect={handleLocationSelect.bind(this)} />
+           <Geocoder onLocationSelect={handleLocationSelect.bind(this)} />
+            
             <FormControl isInvalid={errors.descripcion}>
                <FormLabel htmlFor="descripcion">Descripción</FormLabel>
                <Textarea
