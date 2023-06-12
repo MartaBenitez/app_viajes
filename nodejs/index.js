@@ -1,8 +1,7 @@
 const mongoose = require('mongoose'); 
 const express = require('express');
 const cors = require('cors');
-
-const database = require('./config/database');
+const connectWithRetry = require('./config/database');
 const CONFIG = require('./config/config');
 const authToken = require('./middlewares/authToken');
 
@@ -13,13 +12,12 @@ const routerDias = require('./routes/dias');
 const routerEventos = require('./routes/eventos');
 
 const app = express();
-
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); 
 app.use('/public', express.static(__dirname + '/public'));
 
-database.connect();
+connectWithRetry();
 
 const db = mongoose.connection;
 

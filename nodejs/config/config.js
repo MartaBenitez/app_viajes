@@ -1,5 +1,5 @@
 module.exports = {
-    PORT: 5000,
-    DB: 'mongodb+srv://MartaBenitez:Su5nyazMmaOONzAJ@cluster0.nqh8gct.mongodb.net/viajesdb?retryWrites=true&w=majority',
-    SECRET_TOKEN: 'kE6P8wV8KBAofqn'
+    PORT: process.env.PORT,
+    DB: process.env.DB,
+    SECRET_TOKEN: process.env.SECRET_TOKEN
 }

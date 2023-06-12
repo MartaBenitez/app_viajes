@@ -12,7 +12,7 @@ const MisViajes = () => {
     const [error, setError] = useState(false);
 
     useEffect(() => {
-        pedirViajes()
+            pedirViajes()
             .then(response => {
                 const listaViajes = response.data;
                 if (listaViajes.length != 0) { ordenarViajes(listaViajes); }
@@ -20,6 +20,7 @@ const MisViajes = () => {
             .catch(()=> {
                 setError(true);
             });
+        
     }, []);
 
     function ordenarViajes(lista) {

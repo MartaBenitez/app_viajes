@@ -1,4 +1,4 @@
-nodejs/node_modules
+node_modules
 mongodb
 package-lock.json
 docker-compose.yaml

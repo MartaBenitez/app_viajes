@@ -21,19 +21,16 @@ export default function Navbar() {
     index={activeTab}
   >
     <TabList mb="1em">
-      <Tab onClick={() => handleTabClick(0, '/')} 
-          _selected={{ color: 'black', bg:'#6CC6E9'}}
+      <Tab onClick={() => handleTabClick(0, '/')} style={{ color: 'black', backgroundColor:'#6CC6E9'}} 
           _hover={{ boxShadow: 'inset 0px -4px 0px  #FFDB70' }}>
         <IoMdHome />
         Inicio
       </Tab>
       <Tab onClick={() => handleTabClick(1, '/sobre-nosotros')}
-       _selected={{ color: 'black', bg:'#6CC6E9'}}
        _hover={{ boxShadow: 'inset 0px -4px 0px  #FFDB70' }}>
         Acerca de nosotros
       </Tab>
       <Tab onClick={() => handleTabClick(2, '/acceso')}
-      _selected={{ color: 'black', bg:'#6CC6E9'}}
       _hover={{ boxShadow: 'inset 0px -4px 0px  #FFDB70' }}>
         Accede
       </Tab>

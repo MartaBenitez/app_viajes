@@ -1,13 +1,16 @@
 const mongoose = require('mongoose');
-const CONFIG = require('./config');
 
-module.exports = {
-    connection: null,
-    connect: function(){
-        if(this.connection) return this.connection;
-        return mongoose.connect(CONFIG.DB).then(connection => {
-            this.connection = connection;
-            console.log('Conexion a Base de Datos realizada con éxito');
-        }).catch(error => console.log(error));
-    }
-}
+const connectWithRetry = () => {
+  mongoose
+    .connect(process.env.DB, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+      console.log('Conexión exitosa a la base de datos');
+    })
+    .catch((error) => {
+      console.error('Error al conectar a la base de datos:', error.message);
+      console.log('Reintentando conexión en 5 segundos...');
+      setTimeout(connectWithRetry, 5000);
+    });
+};
+
+module.exports = connectWithRetry;

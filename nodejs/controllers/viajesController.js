@@ -155,6 +155,7 @@ async function anadirDias(viaje) {
   try {
     const numDias = viaje.numDias;
     let fechaInicio = new Date(viaje.fechaInicio);
+    fechaInicio = new Date(fechaInicio.getFullYear(), fechaInicio.getMonth(), fechaInicio.getDate());
     for (let i = 0; i < numDias; i++) {
       const diaInsertado = await dias.create({ idViaje: viaje._id, fecha: fechaInicio });
       await viajes.updateOne({ "_id": viaje._id }, { $push: { dias: diaInsertado._id } });
@@ -165,5 +166,6 @@ async function anadirDias(viaje) {
     return error;
   }
 }
+
 
 module.exports = { eliminar, modificar, addNuevo, recuperarMios, recuperarUno };

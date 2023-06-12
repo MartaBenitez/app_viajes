@@ -1,6 +1,5 @@
 import React, { useEffect, useRef} from 'react';
 import mapboxgl from 'mapbox-gl';
-import "./estiloMapa.css";
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibWFydGExMjM0NSIsImEiOiJjbGlqNmcyZjMwNTl1M3BvNXAxdHViZ2RsIn0.bB3QeJthYJFxIgnlDbkoAw'; // Reemplaza con tu propio token de acceso de Mapbox
 
