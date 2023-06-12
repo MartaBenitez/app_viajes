@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import mapboxSdk from '@mapbox/mapbox-sdk';
 import mapboxGeocoding from '@mapbox/mapbox-sdk/services/geocoding';
 import { Input, Button } from '@chakra-ui/react';
-import { token } from '../../Conf';
 
 
 const Geocoder = ({ onLocationSelect }) => {
