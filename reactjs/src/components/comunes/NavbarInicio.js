@@ -22,40 +22,19 @@ export default function Navbar() {
   >
     <TabList mb="1em">
       <Tab onClick={() => handleTabClick(0, '/')} 
-          sx={{
-            '&[aria-selected="true"]': {
-              color: 'black',
-              bg:'#6CC6E9'
-            },
-            '&:hover': {
-              boxShadow: 'inset 0px -4px 0px  #FFDB70',
-            },
-          }}>
+          _selected={{ color: 'black', bg:'#6CC6E9'}}
+          _hover={{ boxShadow: 'inset 0px -4px 0px  #FFDB70' }}>
         <IoMdHome />
         Inicio
       </Tab>
       <Tab onClick={() => handleTabClick(1, '/sobre-nosotros')}
-      sx={{
-        '&[aria-selected="true"]': {
-          color: 'black',
-          bg:'#6CC6E9'
-        },
-        '&:hover': {
-          boxShadow: 'inset 0px -4px 0px  #FFDB70',
-        },
-      }}>
+       _selected={{ color: 'black', bg:'#6CC6E9'}}
+       _hover={{ boxShadow: 'inset 0px -4px 0px  #FFDB70' }}>
         Acerca de nosotros
       </Tab>
       <Tab onClick={() => handleTabClick(2, '/acceso')}
-      sx={{
-        '&[aria-selected="true"]': {
-          color: 'black',
-          bg:'#6CC6E9'
-        },
-        '&:hover': {
-          boxShadow: 'inset 0px -4px 0px  #FFDB70',
-        },
-      }}>
+      _selected={{ color: 'black', bg:'#6CC6E9'}}
+      _hover={{ boxShadow: 'inset 0px -4px 0px  #FFDB70' }}>
         Accede
       </Tab>
     </TabList>

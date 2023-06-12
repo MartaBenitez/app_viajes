@@ -3,111 +3,69 @@ require('../models/Evento');
 const dias = mongoose.model('Dias');
 const eventos = mongoose.model('Eventos');
 
-function recuperarTodos(req, res) { 
-    const id=req.params.id;
-    eventos.find({ 'idViaje': id})
-        .then(eventos => {
-            let listaEventos = eventos;
-            if(!listaEventos||listaEventos.length==0){
-                return res.send([]);
-            }else{
-                return res.send(listaEventos);
-            }
-        })
-        .catch(error => {
-            return res.status(400).send({
-                status: 'error' + error
-            });
-        });
-}
-function recuperarUno(req, res) { 
-    const id=req.params.id;
-    eventos.findOne({ '_id': id})
-        .then(eventoLeido => {
-            return res.send(eventoLeido ? eventoLeido : {});
-        })
-        .catch(error => {
-            return res.status(400).send({
-                status: 'error' + error
-            });
-        });
+async function recuperarTodos(req, res) { 
+  try {
+    const id = req.params.id;
+    const listaEventos = await eventos.find({ 'idViaje': id });
+    if (!listaEventos || listaEventos.length == 0) {
+      return res.send([]);
+    } else {
+      return res.send(listaEventos);
+    }
+  } catch (error) {
+    return res.status(400).send({
+      status: 'error' + error
+    });
+  }
 }
 
-function addNuevo(req, res) { 
+
+async function addNuevo(req, res) { 
+  try {
     const evento = req.body;
     if (evento._id == 0) {
-        delete viaje._id;
+      delete evento._id;
     }
-    new eventos(evento).save()
-        .then(eventoAnadido=> {
-            dias.updateOne({'_id':eventoAnadido.idDia},{$push:{'eventos':eventoAnadido._id}})
-            .then(() => {
-                return res.send({
-                    status: 'correcto'
-                });
-            })
-            .catch(error => {
-                return res.status(400).send({
-                    status: 'error' + error
-                });
-            });
-        })
-        .catch(error => {
-            return res.status(400).send({
-                status: 'error' + error
-            });
-        });
-}
-
-function modificar(req, res) {
-    let evento = req.body;
-    const id=req.params.id;
-    eventos.updateOne({ '_id': id },evento)
-    .then(() => {
-        return res.send({
-            status: 'correcto'
-        });
-    })
-    .catch(error => {
-        return res.status(400).send({
-            status: 'error' + error
-        });
+    const eventoAnadido = await new eventos(evento).save();
+    await dias.updateOne({ '_id': eventoAnadido.idDia }, { $push: { 'eventos': eventoAnadido._id } });
+    return res.send({
+      status: 'correcto'
     });
-
-}
-
-function eliminar(req, res) { 
-    eventos.findOne({ '_id': req.params.id})
-    .then(eventoLeido => {
-        dias.updateOne({'_id':eventoLeido.idDia},{$pull:{'eventos':eventoLeido._id}})
-        .then(() => {
-            eventos.deleteOne({ '_id': req.params.id})
-            .then(() => {
-                return res.send({
-                    status: 'correcto'
-                });
-            })
-            .catch(error => {
-                return res.status(400).send({
-                    status: 'error' + error
-                });
-            });
-        })
-        .catch(error => {
-            return res.status(400).send({
-                status: 'error' + error
-            });
-        });
-
-    })
-    .catch(error => {
-        return res.status(400).send({
-            status: 'error' + error
-        });
+  } catch (error) {
+    return res.status(400).send({
+      status: 'error' + error
     });
+  }
 }
 
+async function modificar(req, res) {
+  try {
+    const evento = req.body;
+    const id = req.params.id;
+    await eventos.updateOne({ '_id': id }, evento);
+    return res.send({
+      status: 'correcto'
+    });
+  } catch (error) {
+    return res.status(400).send({
+      status: 'error' + error
+    });
+  }
+}
 
+async function eliminar(req, res) { 
+  try {
+    const eventoLeido = await eventos.findOne({ '_id': req.params.id });
+    await dias.updateOne({ '_id': eventoLeido.idDia }, { $pull: { 'eventos': eventoLeido._id } });
+    await eventos.deleteOne({ '_id': req.params.id });
+    return res.send({
+      status: 'correcto'
+    });
+  } catch (error) {
+    return res.status(400).send({
+      status: 'error' + error
+    });
+  }
+}
 
-module.exports = { eliminar, modificar, addNuevo, recuperarTodos, recuperarUno };
-
+module.exports = { eliminar, modificar, addNuevo, recuperarTodos };

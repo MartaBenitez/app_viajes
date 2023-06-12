@@ -1,4 +1,4 @@
-import { NumberInput, NumberInputField, useDisclosure, Drawer, DrawerBody, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerOverlay, FormControl, FormLabel, Input, Stack, Button } from '@chakra-ui/react';
+import { useToast, NumberInput, InputGroup, InputRightAddon, NumberInputField, useDisclosure, Drawer, DrawerBody, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerOverlay, FormControl, FormLabel, Input, Stack, Button } from '@chakra-ui/react';
 import SelectorColor from './SelectorColor';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form'
@@ -6,6 +6,7 @@ import { guardarViaje } from '../../api/Viajes';
 
 
 export default function NuevoViaje() {
+    const toast = useToast();
 
     let manana = new Date();
     manana.setDate(manana.getDate() + 1);
@@ -18,16 +19,33 @@ export default function NuevoViaje() {
 
     function onSubmit(values) {
         values.color = colorViaje;
-        console.log(values.color)
         guardarViaje(values)
             .then(res => {
-                console.log(res);
                 if (res.status === 200) {
-                    alert('viaje guardado correctamente');
-                    window.location.reload();
+                    toast({
+                        title: 'Viaje creado correctamente',
+                        status: 'success',
+                        duration: 3000,
+                        isClosable: true
+                    });
+                    setTimeout(() => { window.location.reload(); }, 1000);
+                } else {
+                    toast({
+                        title: 'Error al borrar',
+                        description: 'Hubo un error al crear el viaje',
+                        status: 'error',
+                        duration: 3000,
+                        isClosable: true,
+                    });
                 }
-            }).catch(res => {
-                console.log(res); // Maneja el error de la petición
+            }).catch(() => {
+                toast({
+                    title: 'Error al borrar',
+                    description: 'Hubo un error al crear el viaje',
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                });
 
             });
 
@@ -79,12 +97,16 @@ export default function NuevoViaje() {
                         </NumberInput>
                     </FormControl>
                     <FormControl isInvalid={errors.presupuesto}>
-                        <FormLabel htmlFor="presupuesto">Presupuesto total</FormLabel>
-                        <NumberInput id='presupuesto' defaultValue={0} clampValueOnBlur={false}>
-                            <NumberInputField  {...register('presupuesto')} />
-                        </NumberInput>
+                        <InputGroup>
+                            <FormLabel htmlFor="presupuesto">Presupuesto total</FormLabel>
+                            <NumberInput id='presupuesto' defaultValue={0} clampValueOnBlur={false}>
+                                <NumberInputField  {...register('presupuesto')} />
+                            </NumberInput>
+                            <InputRightAddon children='€' />
+                        </InputGroup>
                     </FormControl>
-                    <Button type="submit" isLoading={isSubmitting} bg='#ED7C6F' color='white'>
+                    <Button type="submit" isLoading={isSubmitting} bg='#ED7C6F' color='white'
+                        _hover={{ bg: '#F4AFAA' }}>
                         Guardar viaje
                     </Button>
                 </Stack>

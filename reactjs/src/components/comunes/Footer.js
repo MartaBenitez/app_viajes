@@ -11,7 +11,7 @@ export default function Footer() {
 <Container maxW="container.lg">
         <Stack direction="row" spacing={4} justify="center">
           <Link href="/">Inicio</Link>
-          <Link href="">Mapa web</Link>
+          <Link href="/mapaweb">Mapa web</Link>
           <Link href="/sobre-nosotros">Acerca de nosotros</Link>
           <Link href="/acceso">Acceso</Link>
         </Stack>

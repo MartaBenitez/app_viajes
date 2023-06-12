@@ -1,4 +1,4 @@
-import { NumberInput, NumberInputField, useDisclosure, Drawer, DrawerBody, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerOverlay, FormControl, FormLabel, Input, Stack, Button } from '@chakra-ui/react';
+import {useToast, NumberInput, InputRightAddon, NumberInputField, useDisclosure, Drawer, DrawerBody, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerOverlay, FormControl, FormLabel, Input, Stack, Button, InputGroup } from '@chakra-ui/react';
 import SelectorColor from './SelectorColor';
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -6,12 +6,7 @@ import { editarViaje } from '../../api/Viajes';
 
 export default function EdicionViaje({ viaje }) {
   const [colorViaje, setColorViaje] = useState("#FFC0CB");
-
-  let manana = new Date();
-  manana.setDate(manana.getDate() + 1);
-  const fechaManana = manana.toISOString().split("T")[0];
-
-
+  const toast = useToast();
   const {
     handleSubmit,
     register,
@@ -26,19 +21,36 @@ export default function EdicionViaje({ viaje }) {
 
   function onSubmit(values) {
     values.color = colorViaje;
-    values._id = viaje._id; // Agrega el ID del viaje para la edición
-
+    values._id = viaje._id;
     editarViaje(values)
       .then(res => {
-        console.log(res);
         if (res.status === 200) {
-          alert('Viaje actualizado correctamente');
-          window.location.reload();
+          toast({
+            title: 'Viaje editado correctamente',
+            status: 'success',
+            duration: 3000,
+            isClosable: true
+        });
+        setTimeout(() => { window.location.reload(); }, 1000);
+        }else{
+          toast({
+            title: 'Error al editar el viaje',
+            description: 'Hubo un error al editar el viaje',
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+        });
         }
       })
-      .catch(res => {
-        console.log(res); // Maneja el error de la petición
+      .catch(()=> {
+        toast({
+          title: 'Error al editar el viaje',
+          description: 'Hubo un error al editar el viaje',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
       });
+    });
   }
 
   const Form = ({ firstFieldRef }) => {
@@ -80,26 +92,6 @@ export default function EdicionViaje({ viaje }) {
               })}
             />
           </FormControl>
-          <FormControl isInvalid={errors.fechaInicio}>
-            <FormLabel htmlFor="fechaInicio">Fecha de inicio</FormLabel>
-            <Input
-              type="date"
-              id="fechaInicio"
-              defaultValue={fechaManana}
-              min={fechaManana}
-              {...register('fechaInicio', {
-                required: 'This is required'
-              })}
-            />
-          </FormControl>
-          <FormControl isInvalid={errors.numDias}>
-            <FormLabel htmlFor="numDias">Número de días</FormLabel>
-            <NumberInput id='numDias' defaultValue={viaje.numDias} min={1} max={100} clampValueOnBlur={false}>
-              <NumberInputField {...register('numDias', {
-                required: 'This is required'
-              })} />
-            </NumberInput>
-          </FormControl>
           <FormControl isInvalid={errors.numPersonas}>
             <FormLabel htmlFor="numPersonas">Número de viajeros</FormLabel>
             <NumberInput id='numPersonas' defaultValue={viaje.numPersonas} min={1} max={100} clampValueOnBlur={false}>
@@ -107,12 +99,15 @@ export default function EdicionViaje({ viaje }) {
             </NumberInput>
           </FormControl>
           <FormControl isInvalid={errors.presupuesto}>
+            <InputGroup>
             <FormLabel htmlFor="presupuesto">Presupuesto total</FormLabel>
             <NumberInput id='presupuesto' defaultValue={viaje.presupuesto} min={0} clampValueOnBlur={false}>
               <NumberInputField {...register('presupuesto')} />
             </NumberInput>
+            <InputRightAddon children='€' />
+            </InputGroup>
           </FormControl>
-            <Button type="submit" isLoading={isSubmitting} colorScheme='teal'>
+            <Button type="submit" isLoading={isSubmitting} bg='#ED7C6F' color='white'hover={{bg:'#F4AFAA'}}>
               Guardar cambios
             </Button>
         </Stack>

@@ -3,10 +3,12 @@ const router = express.Router();
 
 const controller = require('../controllers/usuariosController');
 
-router.get('/admin/', controller.recuperarTodos);  //ruta exclusiva para admins
-router.get('/:id', controller.recuperarUno); //siempre comprobar que su id del token coincide con el que manda por get put o delete
-router.post('/', controller.addNuevo);  //ver que hacer con este. se puede acabar usando solo por admin para añadir otros admins
+router.get('/admin/', controller.recuperarTodos);
+router.get('/:id', controller.recuperarUno); 
+router.post('/', controller.addNuevo);  
 router.put('/:id', controller.modificar);
+router.put('/contrasena/:id', controller.modificarContrasena)
 router.delete('/:id', controller.eliminar);
+router.delete('/admin/:id', controller.suspender);
 
 module.exports = router;

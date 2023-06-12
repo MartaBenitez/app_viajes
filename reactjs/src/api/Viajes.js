@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {urlPeticiones} from './Conf';
+import {urlPeticiones} from '../Conf';
 import * as jose from 'jose';
 
 export function pedirViajes(){
@@ -17,7 +17,6 @@ export function borrarViaje(viaje){
 }
 
 export function guardarViaje(viaje){
-    console.log(viaje)
     const token = sessionStorage.getItem('token');
     const decodedToken = jose.decodeJwt(token);
     const id = decodedToken._id;

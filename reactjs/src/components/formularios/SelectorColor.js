@@ -31,13 +31,13 @@ const colors = [
   "#C2FFC2", // Verde muy clarito
   "#FF7F50", // Naranja coral
   "#D8BFD8", // Violeta clarito
-  "#ADD8E6",  // Azul pastel
+  "#ADD8E6", // Azul pastel
   "#B18F6A", //Marrón clarito
   "#F44E3B", // Rojo oscuro
   "#FE9200", // Naranja
   "#FCDC00", // Amarillo brillante
-  "#00FF00",  // Verde lima
+  "#00FF00", // Verde lima
   "#3498DB", // Azul claro
   "#9B59B6", // Morado
-  "#1ABC9C" // Turquesa
+  "#1ABC9C"  // Turquesa
 ];

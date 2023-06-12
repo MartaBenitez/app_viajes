@@ -1,1 +1,0 @@
-export const urlPeticiones ='http://localhost:5000';

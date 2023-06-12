@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import mapboxSdk from '@mapbox/mapbox-sdk';
 import mapboxGeocoding from '@mapbox/mapbox-sdk/services/geocoding';
-import {Input, Button} from "@chakra-ui/react";
+import { Input, Button } from '@chakra-ui/react';
+import { token } from '../../Conf';
 
-const geocodingClient = mapboxGeocoding(mapboxSdk({ accessToken: 'pk.eyJ1IjoibWFydGExMjM0NSIsImEiOiJjbGlqNmcyZjMwNTl1M3BvNXAxdHViZ2RsIn0.bB3QeJthYJFxIgnlDbkoAw' }));
 
 const Geocoder = ({ onLocationSelect }) => {
+  const geocodingClient = mapboxGeocoding(mapboxSdk( {accessToken: 'pk.eyJ1IjoibWFydGExMjM0NSIsImEiOiJjbGlqNmcyZjMwNTl1M3BvNXAxdHViZ2RsIn0.bB3QeJthYJFxIgnlDbkoAw'} ));
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
 
@@ -21,8 +22,7 @@ const Geocoder = ({ onLocationSelect }) => {
       } else {
         setSuggestions([]);
       }
-    } catch (error) {
-      console.error('Error:', error.message);
+    } catch {
     }
   };
 
@@ -39,18 +39,25 @@ const Geocoder = ({ onLocationSelect }) => {
       {suggestions.length > 0 && (
         <ul>
           {suggestions.map((suggestion) => (
-            <li key={suggestion.id} onClick={() => handleLocationSelect({
-              place_name: suggestion.place_name,
-              latitude: suggestion.center[1],
-              longitude: suggestion.center[0],
-            })}>
+            <li
+              key={suggestion.id}
+              onClick={() =>
+                handleLocationSelect({
+                  place_name: suggestion.place_name,
+                  latitude: suggestion.center[1],
+                  longitude: suggestion.center[0],
+                })
+              }
+            >
               {suggestion.place_name}
             </li>
           ))}
         </ul>
       )}
 
-      <Button type="button" onClick={handleSearch}>Buscar</Button>
+      <Button type="button" onClick={handleSearch}>
+        Buscar
+      </Button>
     </div>
   );
 };

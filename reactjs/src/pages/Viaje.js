@@ -4,7 +4,7 @@ import Navbar from '../components/comunes/NavbarUser';
 import {pedirDiasViaje, pedirEventos} from '../api/Eventos';
 import { useLocation } from 'react-router-dom';
 import CalendarioEventos from '../components/calendarios/CalendarioEventos';
-import { Heading } from '@chakra-ui/react';
+import { Heading, Alert, AlertIcon } from '@chakra-ui/react';
 
 const Viaje = () => {
     const location = useLocation();
@@ -12,27 +12,24 @@ const Viaje = () => {
     const nombre = new URLSearchParams(location.search).get('viaje');
     const [listaDias, setListaDias] = useState([]);
     const [listaEventos, setListaEventos] = useState([]);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
             pedirDiasViaje(idViaje)
             .then(response => {
                 const listaDias= response.data;
-                if (listaDias.length === 0) {
-                    console.log("no hay viajes")
-                } else { setListaDias(listaDias);}
+                if (listaDias.length != 0) { setListaDias(listaDias);}
             })
-            .catch(error => {
-                console.log('Error:', error);
+            .catch(()=> {
+                setError(true);
             });
             pedirEventos(idViaje)
             .then(response => {
                 const listaEventos= response.data;
-                if (listaEventos.length === 0) {
-                    console.log("no hay eventos")
-                } else { ordenarEventos(listaEventos);}
+                if (listaEventos.length != 0) {ordenarEventos(listaEventos);}
             })
-            .catch(error => {
-                console.log('Error:', error);
+            .catch(() => {
+                setError(true);
             });
     }, []);
 
@@ -40,14 +37,25 @@ const Viaje = () => {
         lista.sort((a, b)=>a.fechaInicio>b.fechaInicio);
         setListaEventos(lista);
     }
-    const trail = [{nombre: 'Inicio',url:'/'},{nombre: 'Mis viajes',url:'/viajes'}];
+    const trail = [{nombre: 'Inicio',url:'/'},{nombre: 'Mis viajes',url:'/viajes'},{nombre: 'Mis eventos',url:'/eventos'}];
     return (
         <>  <Navbar />
             <Breadcrumbs trail={trail}/>
             <div class="container text-center bg-light" style={{marginBottom:"5rem"}}>
                 <div className="row justify-content-left">
-                <Heading as='h4'>{nombre}</Heading>
-                    <CalendarioEventos listaDias={listaDias} listaEventos={listaEventos}/>
+                {error && (
+                        <Alert status='error'>
+                            <AlertIcon />
+                            Error al obtener sus eventos de este viaje. Lo sentimos.
+                        </Alert>
+                    )}
+                    {!error &&(
+                        <>
+                         <Heading as='h4'>{nombre}</Heading>
+                        <CalendarioEventos listaDias={listaDias} listaEventos={listaEventos}/>
+                        </>
+                    )}
+               
                 </div>
             </div>
         </>

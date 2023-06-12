@@ -23,7 +23,6 @@ export default function Informacion() {
                         color="white"
                         borderRadius="md"
                         boxShadow="lg"
-                        mr="6"
                     >
                         <Heading as='h4' fontSize="xl" fontWeight="bold" textAlign='center' mb="4">
                             ¿Pensando en tus próximas vacaciones?
@@ -31,7 +30,7 @@ export default function Informacion() {
                         <Text mb="4">
                             Con Planiviaje podrás planificar todo lo que vas a hacer para que no pierdas ni un segundo.
                         </Text>
-                        <Button bg='white' color='#70AC62' onClic={{handleClick}}>EMPIEZA YA</Button>
+                        <Button bg='white' color='#70AC62' onClick={handleClick}>EMPIEZA YA</Button>
                     </Box>
                     </Flex>
                 </div>

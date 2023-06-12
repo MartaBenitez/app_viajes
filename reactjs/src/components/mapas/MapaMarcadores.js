@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef} from 'react';
 import mapboxgl from 'mapbox-gl';
+import "./estiloMapa.css";
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibWFydGExMjM0NSIsImEiOiJjbGlqNmcyZjMwNTl1M3BvNXAxdHViZ2RsIn0.bB3QeJthYJFxIgnlDbkoAw'; // Reemplaza con tu propio token de acceso de Mapbox
 
@@ -70,5 +71,5 @@ export default function MapaMarcadores({ listaEventos }) {
       }
     }, [localizaciones]);
   
-    return <div className="map-container" ref={mapContainerRef} style={{ width: '500px', height: '300px' }} />;
+    return <div className="map-container" ref={mapContainerRef}/>;
   }

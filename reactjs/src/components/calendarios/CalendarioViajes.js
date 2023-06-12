@@ -17,10 +17,9 @@ export default function Calendario({ listaViajes }) {
       height: 'auto',
       events: listaViajesEsquema,
       buttonText: {
-        today: 'Hoy' // Cambiar el texto "Today" a "Hoy"
+        today: 'Hoy'
       },
     }
-    console.log(listaViajesEsquema)
   } else {
     calendarOptions = {
       plugins: [dayGridPlugin, momentPlugin],

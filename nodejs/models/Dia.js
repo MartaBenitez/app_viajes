@@ -15,18 +15,6 @@ const DiaSchema = new Schema({
         required: true,
         min: new Date()
     },
-    descripcion: {
-        type: String,
-        minLength: 1,
-        maxLength: 1500
-    },
-    lugares: {
-        type: Array
-    },
-    presupuesto: {
-        type: Number,
-        min: 0
-    },
     eventos: {
         type: Array
     }

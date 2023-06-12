@@ -1,13 +1,37 @@
-import { Button, Popover, PopoverTrigger, ButtonGroup, PopoverFooter, PopoverBody, PopoverHeader, PopoverArrow, PopoverCloseButton, Portal, PopoverContent } from '@chakra-ui/react';
+import { useToast, Button, Popover, PopoverTrigger, ButtonGroup, PopoverFooter, PopoverBody, PopoverHeader, PopoverArrow, PopoverCloseButton, Portal, PopoverContent } from '@chakra-ui/react';
 import {borrarViaje} from '../../api/Viajes';
 export default function BorradoViaje({viaje}) {
-    console.log(viaje)
+    const toast = useToast();
+
     function borrar(){
         borrarViaje(viaje) 
-        .then(response => {
+        .then((res)=> {
+            if(res.status===200){
+                toast({
+                    title: 'Viaje borrado con éxito',
+                    status: 'success',
+                    duration: 3000,
+                    isClosable: true
+                });
+                setTimeout(() => {window.location.reload();}, 1000);
+            }else{
+                toast({
+                    title: 'Error al borrar',
+                    description: 'Hubo un error al intentar borrar el viaje',
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                  });
+            }
         })
-        .catch(error => {
-            
+        .catch(() => {
+            toast({
+                title: 'Error al borrar',
+                description: 'Hubo un error al intentar borrar el viaje',
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+              });
         });
     }
     return (

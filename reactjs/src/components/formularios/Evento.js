@@ -7,7 +7,6 @@ import DesplegableEventos from '../desplegables/DesplegableEventos';
 
 const Evento = ({ listaDias, listaEventos }) => {
 
-  console.log(listaEventos)
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = React.useRef()
@@ -50,6 +49,9 @@ const Evento = ({ listaDias, listaEventos }) => {
           </DrawerContent>
         </Drawer>
       </div>
+      {listaEventos.length===0 &&(
+            <p>No hay eventos todavía</p>
+        )}
       {listaEventos.length > 0 && (
         <ChakraProvider>
           <div>

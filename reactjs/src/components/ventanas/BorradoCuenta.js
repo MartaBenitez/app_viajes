@@ -1,24 +1,25 @@
-import { useToast, Button, Popover, PopoverTrigger, ButtonGroup, PopoverFooter, PopoverBody, PopoverHeader, PopoverArrow, PopoverCloseButton, Portal, PopoverContent } from '@chakra-ui/react';
-import {borrarEvento} from '../../api/Eventos';
+import { useToast, Button, Popover, PopoverTrigger, PopoverFooter, PopoverBody, PopoverHeader, PopoverArrow, PopoverCloseButton, Portal, PopoverContent } from '@chakra-ui/react';
+import {borrarCuenta} from '../../api/Usuario';
 
-
-export default function BorradoEvento({evento}) {
+export default function BorradoCuenta({usuario}) {
     const toast = useToast();
+
     function borrar(){
-        borrarEvento(evento) 
-        .then(res=> {
+        borrarCuenta(usuario) 
+        .then((res)=> {
             if(res.status===200){
                 toast({
-                    title: 'Evento borrado con éxito',
+                    title: 'Cuenta eliminada. Hasta pronto',
                     status: 'success',
                     duration: 3000,
                     isClosable: true
                 });
-                setTimeout(() => {window.location.reload();}, 1000);
+                sessionStorage.removeItem('token');
+                setTimeout(() => {window.location.href='/';}, 1000);
             }else{
                 toast({
                     title: 'Error al borrar',
-                    description: 'Hubo un error al intentar borrar el viaje',
+                    description: 'Hubo un error al intentar borrar su cuenta',
                     status: 'error',
                     duration: 3000,
                     isClosable: true,
@@ -28,7 +29,7 @@ export default function BorradoEvento({evento}) {
         .catch(() => {
             toast({
                 title: 'Error al borrar',
-                description: 'Hubo un error al intentar borrar el viaje',
+                description: 'Hubo un error al intentar borrar su cuenta',
                 status: 'error',
                 duration: 3000,
                 isClosable: true,
@@ -38,9 +39,7 @@ export default function BorradoEvento({evento}) {
     return (
         <Popover>
             <PopoverTrigger>
-            <Button className='mx-2' color='black' bg='#6CC6E9'>
-    Borrar
-   </Button>
+            <Button bg='white' color='#70AC62'>Eliminar cuenta</Button>
             </PopoverTrigger>
             <Portal>
                 <PopoverContent>
@@ -48,13 +47,10 @@ export default function BorradoEvento({evento}) {
                     <PopoverArrow />
                     <PopoverCloseButton />
                     <PopoverBody>
-                        <p>¿Está seguro de querer borrar el evento seleccionado? <br /> Una vez borrado no podrá recuperarlo</p>
+                        <p>¿Está seguro de querer borrar su cuenta en Planiviaje? <br /> Una vez borrada no podrá recuperar sus viajes ni eventos aunque si podrá volver a registarse con el mismo correo</p>
                     </PopoverBody>
                     <PopoverFooter display='flex' justifyContent='flex-end'>
-                        <ButtonGroup size='sm'>
-                            <Button variant='outline'>Cancelar</Button>
                             <Button colorScheme='red' onClick={borrar}>Borrar</Button>
-                        </ButtonGroup>
                     </PopoverFooter>
                 </PopoverContent>
             </Portal>

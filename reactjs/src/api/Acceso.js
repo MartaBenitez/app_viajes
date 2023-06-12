@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {urlPeticiones} from './Conf'
+import {urlPeticiones} from '../Conf'
 
 export function registrarUsuario(datos){
     return axios.post(urlPeticiones+'/registro', datos)

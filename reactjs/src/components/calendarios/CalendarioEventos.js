@@ -18,7 +18,8 @@ export default function CalendarioEventos({listaDias, listaEventos}) {
     start: evento.fechaInicio,
     end: evento.fechaFin
   }));
-  console.log(eventosCalendario)
+
+  
   useEffect(() => {
     if (listaDias.length === 0) {
       return;

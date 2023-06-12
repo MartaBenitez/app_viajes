@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { logearUsuario, registrarUsuario } from '../../api/Acceso';
 import { validacionLogin, validacionRegistro } from './Validacion';
 import * as jose from 'jose';
-import { MDBInput, MDBValidation, MDBValidationItem, MDBBtn, MDBTabsContent, MDBTabsPane } from 'mdb-react-ui-kit';
-import { Button, HStack, Alert, AlertIcon, AlertDescription, AlertTitle, CircularProgress, Heading } from '@chakra-ui/react';
+import { MDBInput, MDBValidation, MDBValidationItem, MDBTabsContent, MDBTabsPane } from 'mdb-react-ui-kit';
+import { Button, HStack, Alert, AlertIcon, AlertDescription, AlertTitle, CircularProgress } from '@chakra-ui/react';
 
 export default function App() {
     const [loginRegisterActive, setLoginRegisterActive] = useState('login');
@@ -26,7 +26,6 @@ export default function App() {
         if (!errores) {
             logearUsuario(formValueLogin)
                 .then(res => {
-                    console.log(res);
                     setIsLogged(true)
                     setErrorLogged(false);
                     const token = sessionStorage.getItem('token');
@@ -41,7 +40,6 @@ export default function App() {
                     }
                 })
                 .catch(res => {
-                    console.log(res); // Maneja el error de la petición
                     setErrorLogged(true);
                     setIsLogged(false)
                 });
@@ -74,13 +72,11 @@ export default function App() {
         if (!errores) {
             registrarUsuario(formValueRegistro)
                 .then(res => {
-                    console.log(res);
                     setIsRegistred(true)
                     setErrorRegistred(false);
                     window.setTimeout(function () { window.location = "/acceso"; }, 5000)
                 })
                 .catch(res => {
-                    console.log(res); // Maneja el error de la petición
                     setErrorRegistred(true);
                     setIsRegistred(false)
                 });
@@ -163,6 +159,7 @@ export default function App() {
                                     bg='#70AC62'
                                     type='submit'
                                     onClick={handleSubmitLogin}
+                                    _hover={{bg:'#A8D8A2'}}
                                 >
                                     Enviar
                                 </Button>
@@ -171,20 +168,25 @@ export default function App() {
                         </MDBTabsPane>
                         <MDBTabsPane show={loginRegisterActive === 'register'}>
                             <MDBValidation className='row g-3' isValidated>
-                                <MDBValidationItem className='col-md-12 my-3' feedback='Nombre incorrecto. No puede contener números ni caracteres especiales excepto -' invalid>
-                                    <MDBInput className='form-control' id='nombre' name='nombre' label='Nombre' onChange={onChangeRegistro} pattern='[a-zA-Z\u00C0-\u017F\s-]{3,25}' required />
+                                <label>Nombre</label>
+                                <MDBValidationItem className='col-md-12 my-2' feedback='Nombre incorrecto. No puede contener números ni caracteres especiales excepto -' invalid>
+                                    <MDBInput className='form-control' id='nombre' name='nombre' onChange={onChangeRegistro} pattern='[a-zA-Z\u00C0-\u017F\s-]{3,25}' required />
                                 </MDBValidationItem>
-                                <MDBValidationItem className='col-md-12 my-3' feedback='Apellidos incorrectos. No puede contener números ni caracteres especiales excepto -' invalid>
-                                    <MDBInput className='mb-4' id='apellidos' name='apellidos' label='Apellidos' onChange={onChangeRegistro} pattern='[a-zA-Z\u00C0-\u017F\s-]{3,50}' required />
+                                <label>Apellidos</label>
+                                <MDBValidationItem className='col-md-12 my-2' feedback='Apellidos incorrectos. No puede contener números ni caracteres especiales excepto -' invalid>
+                                    <MDBInput className='form-control' id='apellidos' name='apellidos' onChange={onChangeRegistro} pattern='[a-zA-Z\u00C0-\u017F\s-]{3,50}' required />
                                 </MDBValidationItem>
-                                <MDBValidationItem className='col-md-12 my-3' feedback='Fecha inválida. Tiene que tener al menos 14 años para registrarse.' invalid>
-                                    <MDBInput className='mb-4' type='date' id='fechaNacimiento' name='fechaNacimiento' label='Fecha de nacimiento' onChange={onChangeRegistro} min='1900-01-01' max={fechaMaxima} required />
+                                <label>Fecha de nacimiento</label>
+                                <MDBValidationItem className='col-md-12 my-2' feedback='Fecha inválida. Tiene que tener al menos 14 años para registrarse.' invalid>
+                                    <MDBInput className='form-control' type='date' id='fechaNacimiento' name='fechaNacimiento' onChange={onChangeRegistro} min='1900-01-01' max={fechaMaxima} required />
                                 </MDBValidationItem>
-                                <MDBValidationItem className='col-md-12 my-3' feedback='Email incorrecto.' invalid>
-                                    <MDBInput className='form-control' type='email' id='email' name='email' label='Email' onChange={onChangeRegistro} required />
+                                <label>Email</label>
+                                <MDBValidationItem className='col-md-12 my-2' feedback='Email incorrecto.' invalid>
+                                    <MDBInput className='form-control' type='email' id='email' name='email' onChange={onChangeRegistro} required />
                                 </MDBValidationItem>
-                                <MDBValidationItem className='col-md-12 my-3' feedback='Contraseña incorrecta. Solo puede contener letras, números y/o los caracteres *?#@$. Entre 8 y 25 caracteres en total.' invalid>
-                                    <MDBInput className='form-control' type='password' id='contrasena' name='contrasena' label='Contraseña' onChange={onChangeRegistro} pattern="[a-zA-Z0-9*?#@$]{8,25}" required />
+                                <label>Contraseña</label>
+                                <MDBValidationItem className='col-md-12 my-2' feedback='Contraseña incorrecta. Solo puede contener letras, números y/o los caracteres *?#@$. Entre 8 y 25 caracteres en total.' invalid>
+                                    <MDBInput className='form-control' type='password' id='contrasena' name='contrasena' onChange={onChangeRegistro} pattern="[a-zA-Z0-9*?#@$]{8,25}" required />
                                 </MDBValidationItem>
                                 {isRegistred && (
                                     <div>
@@ -199,7 +201,7 @@ export default function App() {
                                         >
                                             <AlertIcon boxSize='40px' mr={0} />
                                             <AlertTitle mt={4} mb={1} fontSize='lg'>
-                                                Sesión iniciada correctamente
+                                                Usuario registrado correctamente
                                             </AlertTitle>
                                             <AlertDescription maxWidth='sm'>
                                                 En unos segundos será redirigido
@@ -211,10 +213,19 @@ export default function App() {
                                 {errorRegistred && (
                                     <Alert status='error'>
                                         <AlertIcon />
-                                        Error al iniciar sesión
+                                        Error al registrarse
                                     </Alert>
                                 )}
-                                <MDBBtn className="mb-4" type='submit' block onClick={handleSubmitRegistro}>Enviar</MDBBtn>
+                                <Button
+                                    variant="solid"
+                                    flex='full'
+                                    bg='#70AC62'
+                                    type='submit'
+                                    onClick={handleSubmitRegistro}
+                                    _hover={{bg:'#A8D8A2'}}
+                                >
+                                    Enviar
+                                </Button>
                             </MDBValidation>
                         </MDBTabsPane>
                     </MDBTabsContent>

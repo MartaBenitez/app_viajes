@@ -28,6 +28,9 @@ export default function DesplegableViajes({ listaViajes }) {
             <Heading as='h3' className='mb-4'>Mis viajes</Heading>
             <NuevoViaje />
             <Accordion>
+                {listaViajes.length===0 &&(
+                    <p>No hay viajes todavía</p>
+                )}
                 {listaViajes.map((viaje, index) => (
                     <AccordionItem key={viaje._id}>
                         <h2>

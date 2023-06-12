@@ -1,51 +1,84 @@
-import { NumberInput, Select, Textarea, NumberInputField, useDisclosure, Drawer, DrawerBody, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerOverlay, FormControl, FormLabel, Input, Stack, Button } from '@chakra-ui/react';
-import React, { useState, useEffect } from 'react';
+import { useToast, InputRightAddon,InputGroup, NumberInput, Select, Textarea, NumberInputField, useDisclosure, Drawer, DrawerBody, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerOverlay, FormControl, FormLabel, Input, Stack, Button } from '@chakra-ui/react';
+import React, { useState} from 'react';
 import { useForm } from 'react-hook-form';
-import { guardarEvento } from '../../api/Eventos';
+import { editarEvento } from '../../api/Eventos';
 import SelectorImagenes from './SelectorImagenes';
-import Geocoder from '../mapas/Geocoder';
 
 export default function EdicionEvento({listaDias, evento }) {
-
+   const toast = useToast();
     let idDia = listaDias[0]._id;
+    let idEvento=evento._id;
     const {
        handleSubmit,
        register,
        formState: { errors, isSubmitting },
     } = useForm()
  
-    function onSubmit(evento) {
-       const fechaICombinada = new Date(evento.dia);
-       const horaFormateada = evento.horaInicio;
+    function onSubmit(values) {
+       const fechaICombinada = new Date(values.dia);
+       const horaFormateada = values.horaInicio;
+       var color;
+
+      switch (imagenTipo) {
+         case "desplazamiento": color = '#6CC6E9';
+            break;
+         case "comida": color = '#FFDB70';
+            break;
+         case "visita": color = '#70AC62';
+            break;
+         case "alojamiento": color = '#ED7C6F';
+            break;
+         default: color = '#6CC6E9';
+      }
  
        fechaICombinada.setHours(horaFormateada.split(':')[0]);
        fechaICombinada.setMinutes(horaFormateada.split(':')[1]);
        
        const fechaI = `${fechaICombinada.getFullYear()}-${(fechaICombinada.getMonth() + 1).toString().padStart(2, '0')}-${fechaICombinada.getDate().toString().padStart(2, '0')} ${fechaICombinada.getHours().toString().padStart(2, '0')}:${fechaICombinada.getMinutes().toString().padStart(2, '0')}:${fechaICombinada.getSeconds().toString().padStart(2, '0')}`;
-       const [horas, minutos] = evento.duracion.split(':').map(part => parseInt(part, 10));
+       const [horas, minutos] = values.duracion.split(':').map(part => parseInt(part, 10));
  
        fechaICombinada.setHours(fechaICombinada.getHours() + horas);
        fechaICombinada.setMinutes(fechaICombinada.getMinutes() + minutos);
        const fechaF = `${fechaICombinada.getFullYear()}-${(fechaICombinada.getMonth() + 1).toString().padStart(2, '0')}-${fechaICombinada.getDate().toString().padStart(2, '0')} ${fechaICombinada.getHours().toString().padStart(2, '0')}:${fechaICombinada.getMinutes().toString().padStart(2, '0')}:${fechaICombinada.getSeconds().toString().padStart(2, '0')}`;
        let objEvento = {
-          nombre: evento.nombre,
+          nombre: values.nombre,
           idDia: idDia,
           fechaInicio: fechaI,
           idViaje: listaDias[0].idViaje,
           fechaFin: fechaF,
           tipo: imagenTipo,
-          descripcion: evento.descripcion,
-          enlace: evento.enlace,
-          ubicacion:selectedLocation.name,
-          longitud: selectedLocation.longitude,
-          latitud: selectedLocation.latitude,
-          precio: evento.precio
+          descripcion: values.descripcion,
+          enlace: values.enlace,
+          precio: values.precio,
+          color: color
        }
-       guardarEvento(objEvento)
-          .then(response => {
-             console.log(response)
-          }).catch(error => {
-             console.log(error)
+       editarEvento(objEvento, idEvento)
+          .then(res => {
+            if (res.status === 200) {
+               toast({
+                 title: 'Evento editado correctamente',
+                 status: 'success',
+                 duration: 3000,
+                 isClosable: true
+             });
+             setTimeout(() => { window.location.reload(); }, 1000);
+             }else{
+               toast({
+                 title: 'Error al editar el evento',
+                 description: 'Hubo un error al editar el evento',
+                 status: 'error',
+                 duration: 3000,
+                 isClosable: true,
+             });
+             }
+          }).catch(() => {
+            toast({
+               title: 'Error al editar el evento',
+               description: 'Hubo un error al editar el evento',
+               status: 'error',
+               duration: 3000,
+               isClosable: true,
+           });
           });
     }
  
@@ -69,11 +102,6 @@ export default function EdicionEvento({listaDias, evento }) {
  
     const [imagenTipo, setImagenTipo] = useState("desplazamiento");
  
-    const [selectedLocation, setSelectedLocation] = useState(null);
- 
-    const handleLocationSelect = (location) => {
-      setSelectedLocation(location);
-    };
  
   const Form = ({ firstFieldRef }) => {
     return (
@@ -121,8 +149,6 @@ export default function EdicionEvento({listaDias, evento }) {
                  ))}
               </Select>
            </FormControl>
-           <FormLabel htmlFor="ubicacion">Lugar</FormLabel>
-           <Geocoder onLocationSelect={handleLocationSelect.bind(this)} />
            <FormControl isInvalid={errors.descripcion}>
               <FormLabel htmlFor="descripcion">Descripción</FormLabel>
               <Textarea
@@ -137,15 +163,19 @@ export default function EdicionEvento({listaDias, evento }) {
               <Input type='url' id='enlace'  defaultValue={evento.enlace}{...register('enlace')} />
            </FormControl>
            <FormControl isInvalid={errors.presupuesto}>
-              <FormLabel htmlFor="presupuesto">Precio</FormLabel>
-              <NumberInput id='presupuesto' defaultValue={evento.precio} clampValueOnBlur={false}>
-                 <NumberInputField  {...register('presupuesto')} />
-              </NumberInput>
-           </FormControl>
+               <InputGroup>
+               <FormLabel htmlFor="precio">Precio</FormLabel>
+               <NumberInput id='precio' defaultValue={evento.precio} clampValueOnBlur={false}>
+                  <NumberInputField  {...register('precio')} />
+               </NumberInput>
+               <InputRightAddon children='€' />
+               </InputGroup>
+            </FormControl>
+           <Button type="submit" isLoading={isSubmitting} bg='#ED7C6F' color='white'
+               _hover={{ bg: '#F4AFAA' }}>
+               Editar evento
+            </Button>
         </Stack>
-        <Button type="submit" isLoading={isSubmitting} colorScheme='teal'>
-           Guardar evento
-        </Button>
      </form>
     )
   };

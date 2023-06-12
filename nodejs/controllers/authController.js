@@ -6,56 +6,53 @@ const CONFIG = require('../config/config');
 
 const jwt = require('jsonwebtoken');
 
-function login(req,res){
-    let email = req.body.email;
-    let contrasena= req.body.contrasena;
+async function login(req, res) {
+  try {
+    const email = req.body.email;
+    const contrasena = req.body.contrasena;
 
-    usuarios.findOne({email:email})
-        .then(usuario => {
-            if(!usuario || usuario.estado=='inactivo') return res.status(404).send({message: 'El usuario no existe'});
-            bcrypt.compare(contrasena,usuario.contrasena)
-                  .then(match => {
-                        if(match){
-                            let payload = {
-                                _id: usuario._id,
-                                email: usuario.email,
-                                nombre: usuario.nombre,
-                                rol: usuario.rol
-                            }
-                            jwt.sign(payload,CONFIG.SECRET_TOKEN,function(error,token){
-                                if(error){
-                                    res.status(500).send({error});
-                                }else{
-                                    res.status(200).send({message: 'Acceso',token});
-                                }
-                            })
-                        }else{
-                            res.status(403).send({message: 'Contraseña incorrecta'});
-                        }
-                  }).catch(error => {
-                    console.log(error);
-                    res.status(500).send({error});
-                  });
-        }).catch(error => {
-            console.log(error);
-            res.status(500).send({error});
-        });
+    const usuario = await usuarios.findOne({ email: email });
+    if (!usuario || usuario.estado == 'inactivo') {
+      return res.status(404).send({ message: 'El usuario no existe' });
+    }
+
+    const match = await bcrypt.compare(contrasena, usuario.contrasena);
+    if (match) {
+      const payload = {
+        _id: usuario._id,
+        email: usuario.email,
+        nombre: usuario.nombre,
+        rol: usuario.rol
+      };
+
+      jwt.sign(payload, CONFIG.SECRET_TOKEN, function (error, token) {
+        if (error) {
+          res.status(500).send({ error });
+        } else {
+          res.status(200).send({ message: 'Acceso', token });
+        }
+      });
+    } else {
+      res.status(403).send({ message: 'Contraseña incorrecta' });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ error });
+  }
 }
 
-function registro(req,res){
-    const usuario = req.body; // DEBERIA VALIDARSE
-    new usuarios(usuario).save()
-        .then(() => {
-            return res.send({
-                status: 'correcto'
-            });
-        })
-        .catch(error => {
-            return res.status(400).send({
-                status: 'error' + error
-            });
-        });
+async function registro(req, res) {
+  try {
+    const usuario = req.body;
+    await new usuarios(usuario).save();
+    return res.send({
+      status: 'correcto'
+    });
+  } catch (error) {
+    return res.status(400).send({
+      status: 'error' + error
+    });
+  }
 }
 
-
-module.exports = {registro, login};
+module.exports = { registro, login };
